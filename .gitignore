@@ -1,0 +1,72 @@
+# --- Environment ---
+# Ignore the virtual environment folder
+/venv/
+/env/
+/.venv/
+/ENV/
+
+# Ignore sensitive environment variables. Use a .env.example file to list needed vars.
+/.env
+
+
+# --- Django ---
+# Ignore the local SQLite database
+*.sqlite3
+
+# Ignore user-uploaded files
+/media/
+
+# Ignore static files collected by collectstatic
+/staticfiles/
+/static_root/
+
+
+# --- Python ---
+# Ignore Python bytecode and cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore egg and distribution build artifacts
+*.egg-info/
+*.egg
+dist/
+build/
+wheels/
+*.tar.gz
+*.whl
+
+
+# --- IDE & Editor Configuration ---
+# Visual Studio Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+
+
+# --- Testing & Logs ---
+# Ignore test coverage reports
+.coverage
+htmlcov/
+
+# Ignore log files
+*.log
+
+
+# --- OS Files ---
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
