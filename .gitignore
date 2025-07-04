@@ -70,3 +70,6 @@ htmlcov/
 # Windows
 Thumbs.db
 desktop.ini
+
+# Api Keys and Secrets
+.env
