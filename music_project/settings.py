@@ -151,5 +151,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_AUTH = {
-    'REGISTER_SERIALIZER': 'dj_rest_auth.registration.serializers.RegisterSerializer',
+    'USE_JWT': True,
+    'JWT_AUTH_HTTPONLY': False,
+    'REGISTER_SERIALIZER': 'core.serializers.CustomRegisterSerializer'
 }
