@@ -1,17 +1,16 @@
 # --- Environment ---
-# Ignore the virtual environment folder
-/venv/
-/env/
-/.venv/
-/ENV/
-
-# Ignore sensitive environment variables. Use a .env.example file to list needed vars.
-/.env
+# Ignore sensitive environment variables.
+# Use a .env.example file to list needed variables for the project.
+.env
+.env.*
+!.env.example
 
 
 # --- Django ---
 # Ignore the local SQLite database
 *.sqlite3
+db.sqlite3
+db.sqlite3-journal
 
 # Ignore user-uploaded files
 /media/
@@ -21,19 +20,31 @@
 /static_root/
 
 
+# --- Node.js / Vite / React ---
+# Ignore Node.js dependency folder
+/node_modules/
+
+# Ignore Vite cache and build output directory
+.vite/
+/dist/
+
+# Ignore dependency-related logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
 # --- Python ---
 # Ignore Python bytecode and cache
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
 
 # Ignore egg and distribution build artifacts
 *.egg-info/
 *.egg
-dist/
-build/
-wheels/
+/build/
+/wheels/
 *.tar.gz
 *.whl
 
@@ -57,19 +68,19 @@ wheels/
 # --- Testing & Logs ---
 # Ignore test coverage reports
 .coverage
+.coverage.*
 htmlcov/
+nosetests.xml
+coverage.xml
 
 # Ignore log files
 *.log
 
 
-# --- OS Files ---
+# --- OS Specific Files ---
 # macOS
 .DS_Store
 
 # Windows
 Thumbs.db
 desktop.ini
-
-# Api Keys and Secrets
-.env
