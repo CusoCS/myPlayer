@@ -1,27 +1,25 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import api from '../api';
+import { useAuth } from '../context/AuthContext';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { login } = useAuth();
 
     const handlePasswordLogin = async (e) => {
         e.preventDefault();
         try {
             const payload = { username: email, email: email, password: password };
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login/`, payload);
-            
-            localStorage.setItem('access_token', response.data.access);
-            localStorage.setItem('refresh_token', response.data.refresh);
-            window.location.href = '/'; // Redirect to home page on success
+            const response = await api.post('/api/auth/login/', payload);
+            login(response.data.access, response.data.refresh);
         } catch (error) {
-            console.error("Login failed!", error.response.data);
+            console.error("Login failed!", error.response?.data);
             alert("Login failed. Please check your credentials.");
         }
     };
 
-    // --- NEW DYNAMIC URL BUILDER ---
-    // This function constructs the Google Login URL with my Client ID
     const buildGoogleLoginUrl = () => {
         const params = new URLSearchParams({
             redirect_uri: "http://localhost:5173/auth/google/callback",
