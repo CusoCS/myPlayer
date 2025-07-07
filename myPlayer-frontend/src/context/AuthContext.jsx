@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../api'; // Your custom instance for most calls
-import axios from 'axios'; // 1. Import the default axios instance as well
+import api from '../api';
+import axios from 'axios';
 
 // Create the context
 const AuthContext = createContext(null);
@@ -29,7 +29,6 @@ export const AuthProvider = ({ children }) => {
         try {
             const refreshToken = localStorage.getItem('refresh_token');
             if (refreshToken) {
-                // 2. Use the default 'axios' instance here to bypass the interceptor
                 await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/logout/`, { 
                     refresh: refreshToken 
                 });
