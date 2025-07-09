@@ -13,7 +13,7 @@ const LoginPage = () => {
         try {
             const payload = { username: email, email: email, password: password };
             const response = await api.post('/api/auth/login/', payload);
-            login(response.data.access, response.data.refresh);
+            login(response.data.access, response.data.refresh, response.data.user);
         } catch (error) {
             console.error("Login failed!", error.response?.data);
             alert("Login failed. Please check your credentials.");

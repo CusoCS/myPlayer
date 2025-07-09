@@ -6,19 +6,17 @@ import { useAuth } from '../context/AuthContext';
 const GoogleCallbackPage = () => {
     const { login } = useAuth();
     const navigate = useNavigate();
-
-    // State to handle errors and provide feedback to the user
     const [error, setError] = useState(null);
-
-    // This ref ensures the effect runs only once, even in React's Strict Mode
     const effectRan = useRef(false);
 
     useEffect(() => {
-        // We only want this effect to run once on component mount.
-        // In StrictMode, components render twice to detect side effects.
+        // In React's Strict Mode, this check prevents the logic from running twice.
         if (effectRan.current === true) {
             return;
         }
+        
+        // Mark that the effect has run.
+        effectRan.current = true;
 
         const handleGoogleCallback = async () => {
             // Extract the authorization code from the URL query parameters
@@ -31,10 +29,10 @@ const GoogleCallbackPage = () => {
 
             try {
                 const payload = { code };
-                // Exchange the authorization code for access and refresh tokens from backend
+                // Exchange the authorization code for tokens from the backend
                 const response = await api.post('/api/auth/google/', payload);
                 
-                const { access, refresh } = response.data;
+                const { access, refresh, user } = response.data;
 
                 // Defensive check: ensure the tokens exist before proceeding
                 if (!access || !refresh) {
@@ -42,10 +40,7 @@ const GoogleCallbackPage = () => {
                 }
 
                 // Use the login function from AuthContext to store tokens and set auth state
-                login(access, refresh);
-
-                // Redirect user to the homepage on successful login
-                navigate('/');
+                login(access, refresh, user);
 
             } catch (err) {
                 console.error("Google login failed!", err);
@@ -56,10 +51,6 @@ const GoogleCallbackPage = () => {
 
         handleGoogleCallback();
 
-        // Mark that the effect has run
-        return () => {
-            effectRan.current = true;
-        };
     }, [login, navigate]); // Dependencies for the useEffect hook
 
     // Render different UI based on the state (loading vs. error)

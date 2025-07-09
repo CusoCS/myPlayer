@@ -7,7 +7,22 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import GoogleCallbackPage from './pages/GoogleCallBackPage';
 
-const HomePage = () => <h2>Home Page - Welcome!</h2>;
+const HomePage = () => {
+  // Get both isLoggedIn and user from the context
+  const { isLoggedIn, user } = useAuth();
+
+  return (
+    <div>
+      {isLoggedIn ? (
+        // If the user is logged in, show the welcome back message
+        <h2>Welcome back{user ? `, ${user.first_name}` : ''}!</h2>
+      ) : (
+        // Otherwise, show the sign-up message
+        <h2>GL Jukebox - Sign up now!</h2>
+      )}
+    </div>
+  );
+};
 
 function App() {
   const { isLoggedIn, logout } = useAuth();
@@ -15,7 +30,7 @@ function App() {
   return (
     <div>
       <nav>
-        <Link to="/">Home</Link> | 
+        <Link to="/">Home</Link> |
         {isLoggedIn ? (
           <button onClick={logout} className="logout-button">
             Logout
