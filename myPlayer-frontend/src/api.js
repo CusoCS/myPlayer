@@ -7,7 +7,7 @@ const api = axios.create({
 
 /**
  * Request Interceptor
- * This runs before each request is sent. We'll use it to automatically
+ * This runs before each request is sent. I use it to automatically
  * attach the JWT access token to the Authorization header, *unless* it's a public route.
  */
 api.interceptors.request.use(
@@ -37,7 +37,7 @@ api.interceptors.request.use(
 
 /**
  * Response Interceptor
- * This runs after a response is received. We'll use it to check for
+ * This runs after a response is received. I use it to check for
  * 401 Unauthorized errors, which indicate an expired access token.
  */
 api.interceptors.response.use(
@@ -56,7 +56,7 @@ api.interceptors.response.use(
             try {
                 const refreshToken = localStorage.getItem('refresh_token');
                 
-                // Make a request to your refresh token endpoint
+                // Make a request to refresh token endpoint
                 const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/token/refresh/`, {
                     refresh: refreshToken,
                 });
@@ -66,7 +66,7 @@ api.interceptors.response.use(
                 // Store the new access token
                 localStorage.setItem('access_token', newAccessToken);
                 
-                // Update the Authorization header for subsequent requests using our custom 'api' instance
+                // Update the Authorization header for subsequent requests using custom 'api' instance
                 api.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
                 
                 // Update the header on the original request that failed

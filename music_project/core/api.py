@@ -1,9 +1,9 @@
-from ninja import NinjaAPI, Schema
-from ninja.errors import Http404
-from ninja_jwt.authentication import JWTAuth
-from typing import List, Optional
-from googleapiclient.discovery import build
 from .models import Song, Playlist, PlaylistItem, LikedSong
+from ninja_jwt.authentication import JWTAuth
+from googleapiclient.discovery import build
+from ninja import NinjaAPI, Schema
+from typing import List, Optional
+from ninja.errors import Http404
 from django.conf import settings
 
 api = NinjaAPI()
@@ -46,7 +46,8 @@ def search_songs(request, query: str):
         q=query,
         part='snippet',
         type='video',
-        maxResults=20
+        maxResults=20,
+        videoCategoryId="10"
     )
     response = api_request.execute()
 
@@ -93,7 +94,7 @@ def add_song_to_playlist(request, playlist_id: int, payload: SongInteractionSche
 
 @api.delete("/playlist-items/{item_id}/", auth=JWTAuth())
 def remove_song_from_playlist(request, item_id: int):
-    # Deletes a specific song entryfrom a playlist.
+    # Deletes a specific song entry from a playlist.
     # Ensures the user owns the playlist before deleting.
     try:
         # This query finds the playlist item by its ID & verifies that the owner of the playlist it belongs to is the current user.
