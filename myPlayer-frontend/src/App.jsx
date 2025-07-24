@@ -8,6 +8,7 @@ import RegisterPage from "./pages/RegisterPage";
 import GoogleCallbackPage from "./pages/GoogleCallBackPage";
 import PlaylistsPage from "./pages/PlaylistsPage";
 import PlaylistDetailPage from "./pages/PlaylistDetailPage";
+import HistoryPage from './pages/HistoryPage';
 import Player from "./components/Player";
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
           <>
             <Link to="/playlists" style={{ margin: "0 10px" }}>
               My Playlists
-            </Link>{" "}
+            </Link> | <Link to="/history" style={{ margin: '0 10px' }}>History</Link> {" "}
             |
             <span style={{ margin: "0 10px" }}>
               {user?.first_name}'s Jukebox
@@ -48,6 +49,7 @@ function App() {
           />
           <Route path="/playlists" element={<PlaylistsPage />} />
           <Route path="/playlists/:id" element={<PlaylistDetailPage />} />
+          <Route path="/history" element={<HistoryPage />} />
         </Routes>
       </main>
       {nowPlaying && <Player videoId={nowPlaying} />}

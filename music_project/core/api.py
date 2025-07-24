@@ -1,10 +1,12 @@
-from .models import Song, Playlist, PlaylistItem, LikedSong
+from .models import Song, Playlist, PlaylistItem, LikedSong, ListeningHistory
 from ninja_jwt.authentication import JWTAuth
 from googleapiclient.discovery import build
 from ninja import NinjaAPI, Schema
 from typing import List, Optional
 from ninja.errors import Http404
 from django.conf import settings
+from datetime import timedelta
+from django.utils import timezone
 
 api = NinjaAPI()
 
@@ -41,6 +43,15 @@ class SongInteractionSchema(Schema):
     title: str
     artist: str = None
     thumbnail_url: str = None
+
+# This schema will be used to log a played song
+class LogPlaySchema(Schema):
+    video_id: str
+
+# This schema will be used to return the history list
+class HistoryItemSchema(Schema):
+    song: SongSchema
+    played_at: str
 
 
 @api.get("/songs/search/", response=List[SongSchema])
@@ -186,3 +197,33 @@ def list_liked_songs(request):
     # Retrieves a list of all songs liked by the authenticated user.
     # "Find all Songs for which a 'LikedSong' record exists that is linked to the current user."
     return Song.objects.filter(likedsong__user=request.user)
+
+@api.post("/history/log/", auth=JWTAuth())
+def log_song_played(request, payload: LogPlaySchema):
+    """
+    Logs that a user has played a song. Finds song by video_id.
+    """
+    try:
+        song = Song.objects.get(video_id=payload.video_id)
+        ListeningHistory.objects.create(user=request.user, song=song)
+        return {"success": True}
+    except Song.DoesNotExist:
+        # This can happen if a song from a playlist hasn't been saved yet.
+        # In a full app, you might create the song here. For now, we'll ignore it.
+        return {"success": False}
+
+@api.get("/history/", response=List[HistoryItemSchema], auth=JWTAuth())
+def get_listening_history(request):
+    """
+    Retrieves the listening history for the user from the last 5 days.
+    """
+    five_days_ago = timezone.now() - timedelta(days=5)
+    history = ListeningHistory.objects.filter(
+        user=request.user, 
+        played_at__gte=five_days_ago
+    ).select_related('song')
+
+    return [
+        {"song": entry.song, "played_at": entry.played_at.strftime('%I:%M %p, %b %d')}
+        for entry in history
+    ]

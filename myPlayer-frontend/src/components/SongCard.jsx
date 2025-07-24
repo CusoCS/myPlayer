@@ -7,7 +7,7 @@ const SongCard = ({ song, onSongSelect, onAddToPlaylist }) => {
 
   return (
     <div
-      onClick={() => onSongSelect(song.video_id)}
+      onClick={() => onSongSelect(song)}
       style={{
         border: "1px solid #ccc",
         margin: "10px",
