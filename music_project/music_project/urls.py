@@ -5,11 +5,11 @@ from core.api import api
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
     # API Endpoints
-    path('api/', api.urls),
-    path('api/auth/', include('dj_rest_auth.urls')),
-    path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
-    path('api/auth/google/', GoogleLogin.as_view(), name='google_login'),
-    path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh')
+    path("api/", api.urls),
+    path("api/auth/", include("dj_rest_auth.urls")),
+    path("api/auth/registration/", include("dj_rest_auth.registration.urls")),
+    path("api/auth/google/", GoogleLogin.as_view(), name="google_login"),
+    path("api/auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]

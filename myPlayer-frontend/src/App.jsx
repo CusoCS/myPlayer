@@ -1,14 +1,14 @@
-import { Routes, Route, Link } from 'react-router-dom';
-import { useAuth } from './context/AuthContext';
-import './App.css';
+import { Routes, Route, Link } from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
+import "./App.css";
 
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import GoogleCallbackPage from './pages/GoogleCallBackPage';
-import PlaylistsPage from './pages/PlaylistsPage';
-import PlaylistDetailPage from './pages/PlaylistDetailPage';
-import Player from './components/Player';
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import GoogleCallbackPage from "./pages/GoogleCallBackPage";
+import PlaylistsPage from "./pages/PlaylistsPage";
+import PlaylistDetailPage from "./pages/PlaylistDetailPage";
+import Player from "./components/Player";
 
 function App() {
   const { isLoggedIn, logout, user, nowPlaying } = useAuth();
@@ -16,11 +16,16 @@ function App() {
   return (
     <div>
       <nav>
-        <Link to="/">Home</Link> | 
+        <Link to="/">Home</Link> |
         {isLoggedIn ? (
           <>
-            <Link to="/playlists" style={{ margin: '0 10px' }}>My Playlists</Link> |
-            <span style={{ margin: '0 10px' }}>{user?.first_name}'s Jukebox</span>
+            <Link to="/playlists" style={{ margin: "0 10px" }}>
+              My Playlists
+            </Link>{" "}
+            |
+            <span style={{ margin: "0 10px" }}>
+              {user?.first_name}'s Jukebox
+            </span>
             <button onClick={logout} className="logout-button">
               Logout
             </button>
@@ -37,7 +42,10 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/auth/google/callback" element={<GoogleCallbackPage />} />
+          <Route
+            path="/auth/google/callback"
+            element={<GoogleCallbackPage />}
+          />
           <Route path="/playlists" element={<PlaylistsPage />} />
           <Route path="/playlists/:id" element={<PlaylistDetailPage />} />
         </Routes>
