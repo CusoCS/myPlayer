@@ -7,7 +7,7 @@ import SearchResults from "../components/SearchResults";
 import AddToPlaylistModal from "../components/AddToPlaylistModal";
 
 const HomePage = () => {
-  const { user, selectSong } = useAuth();
+  const { user, selectSong, addToQueue } = useAuth();
 
   // Initialize searchResults state to null instead of an empty array
   const [searchResults, setSearchResults] = useState(null);
@@ -52,6 +52,7 @@ const HomePage = () => {
               results={searchResults}
               onSongSelect={selectSong}
               onAddToPlaylist={handleOpenModal}
+              onAddToQueue={addToQueue}
             />
           )}
 

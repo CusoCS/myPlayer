@@ -1,6 +1,6 @@
 import SongCard from "./SongCard";
 
-const SearchResults = ({ results, onSongSelect, onAddToPlaylist }) => {
+const SearchResults = ({ results, onSongSelect, onAddToPlaylist, onAddToQueue }) => {
   return (
     <div>
       <h3>Search Results</h3>
@@ -12,6 +12,7 @@ const SearchResults = ({ results, onSongSelect, onAddToPlaylist }) => {
               song={song}
               onSongSelect={onSongSelect}
               onAddToPlaylist={onAddToPlaylist}
+              onAddToQueue={onAddToQueue}
             />
           ))
         ) : (

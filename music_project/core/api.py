@@ -5,7 +5,7 @@ from ninja import NinjaAPI, Schema
 from typing import List, Optional
 from ninja.errors import Http404
 from django.conf import settings
-from datetime import timedelta
+from datetime import datetime, timedelta
 from django.utils import timezone
 
 api = NinjaAPI()
@@ -44,14 +44,16 @@ class SongInteractionSchema(Schema):
     artist: str = None
     thumbnail_url: str = None
 
+
 # This schema will be used to log a played song
 class LogPlaySchema(Schema):
     video_id: str
 
+
 # This schema will be used to return the history list
 class HistoryItemSchema(Schema):
     song: SongSchema
-    played_at: str
+    played_at: datetime
 
 
 @api.get("/songs/search/", response=List[SongSchema])
@@ -198,32 +200,36 @@ def list_liked_songs(request):
     # "Find all Songs for which a 'LikedSong' record exists that is linked to the current user."
     return Song.objects.filter(likedsong__user=request.user)
 
+
 @api.post("/history/log/", auth=JWTAuth())
-def log_song_played(request, payload: LogPlaySchema):
+def log_song_played(request, payload: SongInteractionSchema):
     """
-    Logs that a user has played a song. Finds song by video_id.
+    Logs that a user has played a song.
+    It will create the song in the database if it's the first time.
     """
-    try:
-        song = Song.objects.get(video_id=payload.video_id)
-        ListeningHistory.objects.create(user=request.user, song=song)
-        return {"success": True}
-    except Song.DoesNotExist:
-        # This can happen if a song from a playlist hasn't been saved yet.
-        # In a full app, you might create the song here. For now, we'll ignore it.
-        return {"success": False}
+    # Use get_or_create to find the song, or create it if it doesn't exist
+    song, created = Song.objects.get_or_create(
+        video_id=payload.video_id,
+        defaults={
+            'title': payload.title,
+            'artist': payload.artist,
+            'thumbnail_url': payload.thumbnail_url
+        }
+    )
+    
+    # Now that we are guaranteed to have a song object, create the history record
+    ListeningHistory.objects.create(user=request.user, song=song)
+    
+    return {"success": True}
 
 @api.get("/history/", response=List[HistoryItemSchema], auth=JWTAuth())
 def get_listening_history(request):
     """
-    Retrieves the listening history for the user from the last 5 days.
+    Retrieves the listening history for the user from the last 2 days.
     """
-    five_days_ago = timezone.now() - timedelta(days=5)
+    five_days_ago = timezone.now() - timedelta(days=2)
     history = ListeningHistory.objects.filter(
-        user=request.user, 
-        played_at__gte=five_days_ago
-    ).select_related('song')
+        user=request.user, played_at__gte=five_days_ago
+    ).select_related("song")
 
-    return [
-        {"song": entry.song, "played_at": entry.played_at.strftime('%I:%M %p, %b %d')}
-        for entry in history
-    ]
+    return history

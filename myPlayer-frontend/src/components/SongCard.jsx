@@ -1,8 +1,12 @@
-const SongCard = ({ song, onSongSelect, onAddToPlaylist }) => {
+const SongCard = ({ song, onSongSelect, onAddToPlaylist, onAddToQueue }) => {
   const handleAddClick = (e) => {
-    // Stop the click from also triggering the onSongSelect on the parent div
     e.stopPropagation();
     onAddToPlaylist(song);
+  };
+
+  const handleQueueClick = (e) => {
+    e.stopPropagation();
+    onAddToQueue(song);
   };
 
   return (
@@ -22,6 +26,9 @@ const SongCard = ({ song, onSongSelect, onAddToPlaylist }) => {
         <h4>{song.title}</h4>
         <p>{song.artist}</p>
         <button onClick={handleAddClick}>Add to Playlist</button>
+        <button onClick={handleQueueClick} style={{ marginLeft: "5px" }}>
+          Add to Queue
+        </button>
       </div>
     </div>
   );

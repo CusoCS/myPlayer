@@ -8,7 +8,7 @@ import RegisterPage from "./pages/RegisterPage";
 import GoogleCallbackPage from "./pages/GoogleCallBackPage";
 import PlaylistsPage from "./pages/PlaylistsPage";
 import PlaylistDetailPage from "./pages/PlaylistDetailPage";
-import HistoryPage from './pages/HistoryPage';
+import HistoryPage from "./pages/HistoryPage";
 import Player from "./components/Player";
 
 function App() {
@@ -22,7 +22,11 @@ function App() {
           <>
             <Link to="/playlists" style={{ margin: "0 10px" }}>
               My Playlists
-            </Link> | <Link to="/history" style={{ margin: '0 10px' }}>History</Link> {" "}
+            </Link>{" "}
+            |{" "}
+            <Link to="/history" style={{ margin: "0 10px" }}>
+              History
+            </Link>{" "}
             |
             <span style={{ margin: "0 10px" }}>
               {user?.first_name}'s Jukebox
