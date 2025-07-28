@@ -1,0 +1,86 @@
+/* NavbarSearch.module.css */
+.searchForm {
+  margin: 0;
+}
+
+.searchContainer {
+  display: flex;
+  background-color: var(--accent-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  transition: all 0.25s ease;
+  overflow: hidden;
+  max-width: 300px;
+}
+
+.searchContainer:focus-within {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(100, 108, 255, 0.1);
+  background-color: var(--secondary-bg);
+}
+
+.searchInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--primary-text);
+  font-size: 0.9rem;
+  outline: none;
+  min-width: 0;
+}
+
+.searchInput::placeholder {
+  color: var(--secondary-text);
+  font-style: italic;
+}
+
+.searchButton {
+  background: transparent;
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--secondary-text);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.searchButton:hover {
+  color: var(--accent-primary);
+  background-color: rgba(100, 108, 255, 0.1);
+  transform: none;
+  box-shadow: none;
+}
+
+.searchButton:focus {
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .searchContainer {
+    max-width: 200px;
+  }
+  
+  .searchInput {
+    font-size: 0.85rem;
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+  
+  .searchButton {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .searchContainer {
+    max-width: 150px;
+  }
+  
+  .searchInput::placeholder {
+    content: "Search...";
+  }
+}

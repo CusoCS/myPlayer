@@ -10,6 +10,8 @@ export const AuthProvider = ({ children }) => {
   const [nowPlaying, setNowPlaying] = useState(null); // Will hold only the videoId
   const [playQueue, setPlayQueue] = useState([]); // Will hold full song objects
   const [currentTrackIndex, setCurrentTrackIndex] = useState(-1);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [showQueue, setShowQueue] = useState(false);
   const navigate = useNavigate();
 
   /**
@@ -77,6 +79,8 @@ export const AuthProvider = ({ children }) => {
       setNowPlaying(null);
       setPlayQueue([]);
       setCurrentTrackIndex(-1);
+      setIsPlaying(false);
+      setShowQueue(false);
       navigate("/");
     }
   };
@@ -88,6 +92,7 @@ export const AuthProvider = ({ children }) => {
     setPlayQueue([song]); // The queue is now an array with one full song object
     setCurrentTrackIndex(0);
     setNowPlaying(song.video_id);
+    setIsPlaying(true);
   };
 
   /**
@@ -98,6 +103,7 @@ export const AuthProvider = ({ children }) => {
     setPlayQueue(songs);
     setCurrentTrackIndex(startIndex);
     setNowPlaying(songs[startIndex].video_id);
+    setIsPlaying(true);
   };
 
   /**
@@ -112,7 +118,33 @@ export const AuthProvider = ({ children }) => {
       setNowPlaying(null);
       setPlayQueue([]);
       setCurrentTrackIndex(-1);
+      setIsPlaying(false);
     }
+  };
+
+  /**
+   * Plays the previous song in the current queue.
+   */
+  const playPrevious = () => {
+    if (playQueue.length > 0 && currentTrackIndex > 0) {
+      const prevIndex = currentTrackIndex - 1;
+      setCurrentTrackIndex(prevIndex);
+      setNowPlaying(playQueue[prevIndex].video_id);
+    }
+  };
+
+  /**
+   * Toggles play/pause state.
+   */
+  const togglePlayPause = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  /**
+   * Toggles the queue visibility.
+   */
+  const toggleQueue = () => {
+    setShowQueue(!showQueue);
   };
 
   /**
@@ -133,7 +165,7 @@ export const AuthProvider = ({ children }) => {
     playPlaylist(shuffledItems, 0);
   };
 
-  /**
+    /**
      * ✨ NEW: Adds a song to the play queue immediately after the current song.
      * @param {object} song - The full song object to add.
      */
@@ -155,17 +187,62 @@ export const AuthProvider = ({ children }) => {
         alert(`"${song.title}" added to queue!`);
     };
 
-  const value = {
+    /**
+     * ✨ NEW: Converts the current queue to a new playlist
+     * @param {string} playlistName - The name for the new playlist
+     */
+    const convertQueueToPlaylist = async (playlistName) => {
+        if (playQueue.length === 0) {
+            alert("Queue is empty!");
+            return false;
+        }
+
+        try {
+            // Create the playlist
+            const playlistResponse = await api.post("/api/playlists/", {
+                name: playlistName,
+                description: `Created from queue on ${new Date().toLocaleDateString()}`
+            });
+
+            const playlistId = playlistResponse.data.id;
+
+            // Add all songs from queue to the playlist
+            for (let i = 0; i < playQueue.length; i++) {
+                const song = playQueue[i];
+                await api.post(`/api/playlists/${playlistId}/add-song/`, {
+                    video_id: song.video_id,
+                    title: song.title,
+                    artist: song.artist,
+                    thumbnail_url: song.thumbnail_url
+                });
+            }
+
+            alert(`Successfully created playlist "${playlistName}" with ${playQueue.length} songs!`);
+            return true;
+        } catch (error) {
+            console.error("Failed to convert queue to playlist:", error);
+            alert("Failed to create playlist. Please try again.");
+            return false;
+        }
+    };  const value = {
     isLoggedIn,
     user,
     nowPlaying,
+    playQueue,
+    currentTrackIndex,
+    isPlaying,
+    showQueue,
     login,
     logout,
     selectSong,
     playPlaylist,
     playNext,
+    playPrevious,
+    togglePlayPause,
+    toggleQueue,
     shufflePlaylist,
-    addToQueue
+    addToQueue,
+    convertQueueToPlaylist
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

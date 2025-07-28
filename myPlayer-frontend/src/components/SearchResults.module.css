@@ -1,0 +1,110 @@
+/* SearchResults.module.css */
+.container {
+  margin-top: var(--spacing-xl);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-md) 0;
+  border-bottom: 2px solid var(--accent-bg);
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-text);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.resultCount {
+  font-size: 0.9rem;
+  color: var(--secondary-text);
+  background-color: var(--accent-bg);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+}
+
+.resultsGrid {
+  display: grid;
+  gap: var(--spacing-md);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.noResults {
+  text-align: center;
+  padding: var(--spacing-xl);
+  background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--accent-bg) 100%);
+  border-radius: var(--radius-lg);
+  border: 2px dashed var(--accent-primary);
+  margin-top: var(--spacing-lg);
+}
+
+.noResultsIcon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-md);
+  opacity: 0.6;
+}
+
+.noResultsTitle {
+  font-size: 1.3rem;
+  color: var(--primary-text);
+  margin-bottom: var(--spacing-sm);
+}
+
+.noResultsText {
+  color: var(--secondary-text);
+  font-size: 1rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading animation */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-xl);
+  margin-top: var(--spacing-lg);
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--accent-bg);
+  border-top: 3px solid var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    text-align: center;
+  }
+  
+  .title {
+    justify-content: center;
+  }
+}

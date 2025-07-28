@@ -1,0 +1,405 @@
+/* AddToPlaylistModal.module.css */
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+  padding: var(--spacing-md);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modalContent {
+  background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--accent-bg) 100%);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  min-width: 400px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(100, 108, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--accent-bg);
+  position: relative;
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modalHeader {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 2px solid var(--accent-bg);
+  position: relative;
+}
+
+.modalIcon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-md);
+  opacity: 0.9;
+}
+
+.modalTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-text);
+  margin: 0 0 var(--spacing-sm) 0;
+  line-height: 1.3;
+}
+
+.songInfo {
+  background: var(--surface-bg);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  margin: var(--spacing-md) 0;
+  border: 1px solid var(--accent-bg);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.songThumbnail {
+  width: 60px;
+  height: 45px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  box-shadow: var(--shadow-sm);
+}
+
+.songDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.songTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary-text);
+  margin: 0 0 var(--spacing-xs) 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.songArtist {
+  font-size: 0.85rem;
+  color: var(--secondary-text);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.playlistsSection {
+  margin-bottom: var(--spacing-lg);
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary-text);
+  margin: 0 0 var(--spacing-md) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.playlistsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: var(--spacing-xs);
+}
+
+/* Custom scrollbar */
+.playlistsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.playlistsList::-webkit-scrollbar-track {
+  background: var(--accent-bg);
+  border-radius: 3px;
+}
+
+.playlistsList::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 3px;
+}
+
+.playlistsList::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-secondary);
+}
+
+.playlistItem {
+  background: var(--surface-bg);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.playlistItem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(100, 108, 255, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.playlistItem:hover::before {
+  left: 100%;
+}
+
+.playlistItem:hover {
+  background: var(--accent-bg);
+  border-color: var(--accent-primary);
+  transform: translateX(4px);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.playlistItem:active {
+  transform: translateX(2px);
+  transition-duration: 0.1s;
+}
+
+.playlistIcon {
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+.playlistContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.playlistName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary-text);
+  margin: 0 0 var(--spacing-xs) 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.playlistMeta {
+  font-size: 0.8rem;
+  color: var(--secondary-text);
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.emptyState {
+  text-align: center;
+  padding: var(--spacing-lg);
+  background: var(--surface-bg);
+  border-radius: var(--radius-md);
+  border: 2px dashed var(--accent-bg);
+}
+
+.emptyIcon {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-md);
+  opacity: 0.6;
+}
+
+.emptyTitle {
+  font-size: 1.1rem;
+  color: var(--primary-text);
+  margin-bottom: var(--spacing-sm);
+}
+
+.emptyText {
+  color: var(--secondary-text);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.modalActions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: flex-end;
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--accent-bg);
+}
+
+.cancelButton {
+  background: var(--accent-bg);
+  color: var(--primary-text);
+  border: 1px solid var(--accent-bg);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.cancelButton:hover {
+  background: var(--secondary-bg);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.createNewButton {
+  background: linear-gradient(135deg, var(--success) 0%, #45a049 100%);
+  color: white;
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.createNewButton:hover {
+  background: linear-gradient(135deg, #45a049 0%, #388e3c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-xl);
+}
+
+.loadingSpinner {
+  width: 30px;
+  height: 30px;
+  border: 3px solid var(--accent-bg);
+  border-top: 3px solid var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.successMessage {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(69, 160, 73, 0.2) 100%);
+  border: 1px solid var(--success);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin: var(--spacing-md) 0;
+  text-align: center;
+  color: var(--success);
+  font-weight: 600;
+  animation: slideIn 0.3s ease-out;
+}
+
+.errorMessage {
+  background: linear-gradient(135deg, rgba(244, 67, 54, 0.2) 0%, rgba(211, 47, 47, 0.2) 100%);
+  border: 1px solid var(--error);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin: var(--spacing-md) 0;
+  text-align: center;
+  color: var(--error);
+  font-weight: 600;
+  animation: slideIn 0.3s ease-out;
+}
+
+@media (max-width: 768px) {
+  .modalContent {
+    min-width: auto;
+    margin: var(--spacing-md);
+    padding: var(--spacing-lg);
+    max-height: 90vh;
+  }
+  
+  .modalTitle {
+    font-size: 1.3rem;
+  }
+  
+  .songInfo {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .songThumbnail {
+    width: 80px;
+    height: 60px;
+  }
+  
+  .modalActions {
+    flex-direction: column;
+  }
+  
+  .cancelButton,
+  .createNewButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .modalBackdrop {
+    padding: var(--spacing-sm);
+  }
+  
+  .modalContent {
+    padding: var(--spacing-md);
+  }
+  
+  .playlistItem {
+    flex-direction: column;
+    text-align: center;
+    padding: var(--spacing-sm);
+  }
+  
+  .playlistMeta {
+    justify-content: center;
+  }
+}

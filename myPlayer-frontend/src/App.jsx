@@ -9,40 +9,54 @@ import GoogleCallbackPage from "./pages/GoogleCallBackPage";
 import PlaylistsPage from "./pages/PlaylistsPage";
 import PlaylistDetailPage from "./pages/PlaylistDetailPage";
 import HistoryPage from "./pages/HistoryPage";
+import RecommendationsPage from "./pages/RecommendationsPage";
 import Player from "./components/Player";
+import NavbarSearch from "./components/NavbarSearch";
 
 function App() {
   const { isLoggedIn, logout, user, nowPlaying } = useAuth();
 
   return (
-    <div>
-      <nav>
-        <Link to="/">Home</Link> |
-        {isLoggedIn ? (
-          <>
-            <Link to="/playlists" style={{ margin: "0 10px" }}>
-              My Playlists
-            </Link>{" "}
-            |{" "}
-            <Link to="/history" style={{ margin: "0 10px" }}>
-              History
-            </Link>{" "}
-            |
-            <span style={{ margin: "0 10px" }}>
-              {user?.first_name}'s Jukebox
-            </span>
-            <button onClick={logout} className="logout-button">
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link to="/login">Login</Link> | <Link to="/register">Sign Up</Link>
-          </>
-        )}
+    <div className="app">
+      <nav className="nav">
+        <div className="nav-content">
+          <div className="nav-left">
+            <div className="nav-links">
+              <Link to="/">Home</Link>
+              {isLoggedIn ? (
+                <>
+                  <Link to="/recommendations">Discover</Link>
+                  <Link to="/playlists">My Playlists</Link>
+                  <Link to="/history">History</Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/login">Login</Link>
+                  <Link to="/register">Sign Up</Link>
+                </>
+              )}
+            </div>
+          </div>
+          
+          {isLoggedIn && (
+            <div className="nav-center">
+              <NavbarSearch />
+            </div>
+          )}
+          
+          {isLoggedIn && (
+            <div className="nav-right">
+              <div className="nav-user-info">
+                <span>{user?.first_name}'s Jukebox</span>
+                <button onClick={logout} className="logout-button">
+                  Logout
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </nav>
-      <hr />
-      <main>
+      <main className="main">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -51,6 +65,7 @@ function App() {
             path="/auth/google/callback"
             element={<GoogleCallbackPage />}
           />
+          <Route path="/recommendations" element={<RecommendationsPage />} />
           <Route path="/playlists" element={<PlaylistsPage />} />
           <Route path="/playlists/:id" element={<PlaylistDetailPage />} />
           <Route path="/history" element={<HistoryPage />} />

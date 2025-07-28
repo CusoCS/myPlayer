@@ -1,3 +1,5 @@
+import styles from "./SongCard.module.css";
+
 const SongCard = ({ song, onSongSelect, onAddToPlaylist, onAddToQueue }) => {
   const handleAddClick = (e) => {
     e.stopPropagation();
@@ -10,25 +12,28 @@ const SongCard = ({ song, onSongSelect, onAddToPlaylist, onAddToQueue }) => {
   };
 
   return (
-    <div
-      onClick={() => onSongSelect(song)}
-      style={{
-        border: "1px solid #ccc",
-        margin: "10px",
-        padding: "10px",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
-      <img src={song.thumbnail_url} alt={song.title} width="120" />
-      <div style={{ marginLeft: "10px" }}>
-        <h4>{song.title}</h4>
-        <p>{song.artist}</p>
-        <button onClick={handleAddClick}>Add to Playlist</button>
-        <button onClick={handleQueueClick} style={{ marginLeft: "5px" }}>
-          Add to Queue
-        </button>
+    <div className={styles.songCard} onClick={() => onSongSelect(song)}>
+      <div className={styles.thumbnailContainer}>
+        <img 
+          src={song.thumbnail_url} 
+          alt={song.title} 
+          className={styles.thumbnail}
+        />
+        <div className={styles.playOverlay}>
+          <span className={styles.playIcon}>▶</span>
+        </div>
+      </div>
+      <div className={styles.content}>
+        <h4 className={styles.title}>{song.title}</h4>
+        <p className={styles.artist}>{song.artist}</p>
+        <div className={styles.actions}>
+          <button onClick={handleAddClick} className={`${styles.actionButton} ${styles.playlistButton}`}>
+            ➕ Playlist
+          </button>
+          <button onClick={handleQueueClick} className={`${styles.actionButton} ${styles.queueButton}`}>
+            ⏭ Queue
+          </button>
+        </div>
       </div>
     </div>
   );
