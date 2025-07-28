@@ -5,11 +5,9 @@ from ninja import NinjaAPI, Schema, Field
 from typing import List, Optional
 from ninja.errors import Http404
 from django.conf import settings
-from django.db.models import Count, Q
+from django.db.models import Count
 from datetime import datetime, timedelta
 from django.utils import timezone
-from collections import Counter
-import random
 
 api = NinjaAPI()
 
@@ -62,12 +60,6 @@ class HistoryItemSchema(Schema):
     played_at: datetime
 
 
-class RecommendationSchema(Schema):
-    songs: List[SongSchema]
-    reason: str
-    category: str
-
-
 @api.get("/songs/search/", response=List[SongSchema])
 def search_songs(request, query: str):
     # Simplified version of the YouTube API call logic
@@ -97,7 +89,7 @@ def list_playlists(request):
     Lists all playlists owned by the authenticated user and includes the song count.
     """
     playlists = Playlist.objects.filter(owner=request.user).annotate(
-        song_count=Count("playlistitem")
+        song_count=Count('playlistitem')
     )
     return playlists
 
@@ -228,17 +220,16 @@ def log_song_played(request, payload: SongInteractionSchema):
     song, created = Song.objects.get_or_create(
         video_id=payload.video_id,
         defaults={
-            "title": payload.title,
-            "artist": payload.artist,
-            "thumbnail_url": payload.thumbnail_url,
-        },
+            'title': payload.title,
+            'artist': payload.artist,
+            'thumbnail_url': payload.thumbnail_url
+        }
     )
-
+    
     # Now that we are guaranteed to have a song object, create the history record
     ListeningHistory.objects.create(user=request.user, song=song)
-
+    
     return {"success": True}
-
 
 @api.get("/history/", response=List[HistoryItemSchema], auth=JWTAuth())
 def get_listening_history(request):
@@ -251,249 +242,3 @@ def get_listening_history(request):
     ).select_related("song")
 
     return history
-
-
-@api.get("/recommendations/", response=List[RecommendationSchema], auth=JWTAuth())
-def get_smart_recommendations(request):
-    """
-    Generates smart recommendations based on user's listening history, liked songs, and playlists.
-    """
-    try:
-        recommendations = []
-
-        # Get user's listening history from the last 30 days
-        thirty_days_ago = timezone.now() - timedelta(days=30)
-        recent_history = ListeningHistory.objects.filter(
-            user=request.user, played_at__gte=thirty_days_ago
-        ).select_related("song")
-
-        # Get user's liked songs
-        liked_songs = Song.objects.filter(likedsong__user=request.user)
-
-        # Extract keywords from user's music preferences
-        user_artists = []
-        user_keywords = []
-
-        # Analyze listening history
-        for history_item in recent_history:
-            if history_item.song.artist:
-                user_artists.append(history_item.song.artist.lower())
-            if history_item.song.title:
-                # Extract keywords from song titles
-                title_words = history_item.song.title.lower().split()
-                user_keywords.extend([word for word in title_words if len(word) > 3])
-
-        # Analyze liked songs
-        for song in liked_songs:
-            if song.artist:
-                user_artists.append(song.artist.lower())
-            if song.title:
-                title_words = song.title.lower().split()
-                user_keywords.extend([word for word in title_words if len(word) > 3])
-
-        # Count frequency of artists and keywords
-        artist_counter = Counter(user_artists)
-        keyword_counter = Counter(user_keywords)
-
-        # Get top artists and keywords
-        top_artists = [artist for artist, count in artist_counter.most_common(5)]
-        top_keywords = [keyword for keyword, count in keyword_counter.most_common(10)]
-
-        # Generate recommendations based on top artists
-        if top_artists:
-            artist_queries = top_artists[:3]  # Use top 3 artists
-            artist_recommendations = []
-
-            for artist in artist_queries:
-                try:
-                    youtube = build(
-                        "youtube", "v3", developerKey=settings.YOUTUBE_API_KEY
-                    )
-                    search_query = f"{artist} music"
-
-                    api_request = youtube.search().list(
-                        q=search_query,
-                        part="snippet",
-                        type="video",
-                        maxResults=5,
-                        videoCategoryId="10",
-                    )
-                    response = api_request.execute()
-
-                    for item in response.get("items", []):
-                        # Check if user hasn't already listened to this song
-                        video_id = item["id"]["videoId"]
-                        if not recent_history.filter(song__video_id=video_id).exists():
-                            artist_recommendations.append(
-                                {
-                                    "video_id": video_id,
-                                    "title": item["snippet"]["title"],
-                                    "artist": item["snippet"].get("channelTitle"),
-                                    "thumbnail_url": item["snippet"]["thumbnails"][
-                                        "default"
-                                    ]["url"],
-                                }
-                            )
-
-                    if len(artist_recommendations) >= 8:
-                        break
-
-                except Exception as e:
-                    print(f"Error getting recommendations for artist {artist}: {e}")
-                    continue
-
-            if artist_recommendations:
-                recommendations.append(
-                    {
-                        "songs": artist_recommendations[:8],
-                        "reason": f"Based on your favorite artists: {', '.join(top_artists[:3])}",
-                        "category": "Similar Artists",
-                    }
-                )
-
-        # Generate recommendations based on popular keywords
-        if top_keywords:
-            keyword_queries = top_keywords[:2]  # Use top 2 keywords
-            keyword_recommendations = []
-
-            for keyword in keyword_queries:
-                try:
-                    youtube = build(
-                        "youtube", "v3", developerKey=settings.YOUTUBE_API_KEY
-                    )
-                    search_query = f"{keyword} music song"
-
-                    api_request = youtube.search().list(
-                        q=search_query,
-                        part="snippet",
-                        type="video",
-                        maxResults=4,
-                        videoCategoryId="10",
-                    )
-                    response = api_request.execute()
-
-                    for item in response.get("items", []):
-                        video_id = item["id"]["videoId"]
-                        if not recent_history.filter(song__video_id=video_id).exists():
-                            keyword_recommendations.append(
-                                {
-                                    "video_id": video_id,
-                                    "title": item["snippet"]["title"],
-                                    "artist": item["snippet"].get("channelTitle"),
-                                    "thumbnail_url": item["snippet"]["thumbnails"][
-                                        "default"
-                                    ]["url"],
-                                }
-                            )
-
-                    if len(keyword_recommendations) >= 6:
-                        break
-
-                except Exception as e:
-                    print(f"Error getting recommendations for keyword {keyword}: {e}")
-                    continue
-
-            if keyword_recommendations:
-                recommendations.append(
-                    {
-                        "songs": keyword_recommendations[:6],
-                        "reason": f"Songs matching your interests: {', '.join(keyword_queries)}",
-                        "category": "For You",
-                    }
-                )
-
-        # Generate trending/popular recommendations if we don't have enough personal data
-        if len(recommendations) < 2:
-            try:
-                youtube = build("youtube", "v3", developerKey=settings.YOUTUBE_API_KEY)
-                trending_queries = ["trending music 2025", "popular songs", "new hits"]
-
-                for query in trending_queries:
-                    api_request = youtube.search().list(
-                        q=query,
-                        part="snippet",
-                        type="video",
-                        maxResults=6,
-                        videoCategoryId="10",
-                        order="relevance",
-                    )
-                    response = api_request.execute()
-
-                    trending_songs = []
-                    for item in response.get("items", []):
-                        trending_songs.append(
-                            {
-                                "video_id": item["id"]["videoId"],
-                                "title": item["snippet"]["title"],
-                                "artist": item["snippet"].get("channelTitle"),
-                                "thumbnail_url": item["snippet"]["thumbnails"][
-                                    "default"
-                                ]["url"],
-                            }
-                        )
-
-                    if trending_songs:
-                        recommendations.append(
-                            {
-                                "songs": trending_songs,
-                                "reason": "Popular songs you might enjoy",
-                                "category": "Trending Now",
-                            }
-                        )
-                        break
-
-            except Exception as e:
-                print(f"Error getting trending recommendations: {e}")
-
-        # Generate discovery recommendations (random genres)
-        try:
-            discovery_genres = [
-                "indie rock",
-                "electronic chill",
-                "acoustic folk",
-                "jazz fusion",
-                "lo-fi hip hop",
-            ]
-            selected_genre = random.choice(discovery_genres)
-
-            youtube = build("youtube", "v3", developerKey=settings.YOUTUBE_API_KEY)
-            api_request = youtube.search().list(
-                q=f"{selected_genre} music",
-                part="snippet",
-                type="video",
-                maxResults=5,
-                videoCategoryId="10",
-            )
-            response = api_request.execute()
-
-            discovery_songs = []
-            for item in response.get("items", []):
-                discovery_songs.append(
-                    {
-                        "video_id": item["id"]["videoId"],
-                        "title": item["snippet"]["title"],
-                        "artist": item["snippet"].get("channelTitle"),
-                        "thumbnail_url": item["snippet"]["thumbnails"]["default"][
-                            "url"
-                        ],
-                    }
-                )
-
-            if discovery_songs:
-                recommendations.append(
-                    {
-                        "songs": discovery_songs,
-                        "reason": f"Discover something new: {selected_genre}",
-                        "category": "Discovery",
-                    }
-                )
-
-        except Exception as e:
-            print(f"Error getting discovery recommendations: {e}")
-
-        return recommendations
-
-    except Exception as e:
-        print(f"Error generating recommendations: {e}")
-        # Return empty recommendations on error
-        return []

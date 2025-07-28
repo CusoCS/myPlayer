@@ -7,7 +7,6 @@ import styles from "../components/HomePage.module.css";
 import SearchBar from "../components/SearchBar";
 import SearchResults from "../components/SearchResults";
 import AddToPlaylistModal from "../components/AddToPlaylistModal";
-import Recommendations from "../components/Recommendations";
 
 const HomePage = () => {
   const { user, selectSong, addToQueue } = useAuth();
@@ -79,15 +78,6 @@ const HomePage = () => {
               onAddToPlaylist={handleOpenModal}
               onAddToQueue={addToQueue}
               isLoading={isLoading}
-            />
-          )}
-
-          {/* Show recommendations when not searching */}
-          {searchResults === null && !isLoading && (
-            <Recommendations
-              onSongSelect={selectSong}
-              onAddToPlaylist={handleOpenModal}
-              onAddToQueue={addToQueue}
             />
           )}
 

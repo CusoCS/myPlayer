@@ -1,74 +1,111 @@
 .searchForm {
   display: flex;
-  gap: var(--spacing-sm);
-  max-width: 700px;
-  margin: var(--spacing-xl) auto;
-  background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--accent-bg) 100%);
-  padding: var(--spacing-md);
-  border-radius: var(--radius-lg);
-  box-shadow: 
-    0 10px 30px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  border: 1px solid var(--accent-bg);
+  gap: var(--spacing-md);
+  max-width: 800px;
+  margin: var(--spacing-2xl) auto;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-xl), var(--shadow-glow);
+  border: var(--glass-border);
   position: relative;
   overflow: hidden;
+  animation: searchFormFloat 6s ease-in-out infinite;
+}
+
+@keyframes searchFormFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-2px); }
 }
 
 .searchForm::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-2xl);
+  z-index: -2;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.searchForm::after {
   content: '';
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(100, 108, 255, 0.1), transparent);
-  transition: left 0.5s;
+  background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.1), transparent);
+  transition: left 0.8s ease;
+  z-index: -1;
 }
 
 .searchForm:focus-within::before {
+  opacity: 1;
+}
+
+.searchForm:focus-within::after {
   left: 100%;
+}
+
+.searchForm:focus-within {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--shadow-xl), var(--shadow-glow-strong);
 }
 
 .searchInput {
   flex: 1;
-  background: var(--surface-bg);
+  background: var(--card-bg);
+  backdrop-filter: var(--glass-backdrop);
   border: 2px solid transparent;
-  border-radius: var(--radius-md);
-  padding: var(--spacing-md) var(--spacing-lg);
-  font-size: 1.1rem;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  font-size: 1.2rem;
+  font-weight: 500;
   color: var(--primary-text);
-  transition: all 0.3s ease;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all var(--transition-normal);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.025em;
 }
 
 .searchInput:focus {
-  background-color: var(--accent-bg);
+  background: rgba(38, 38, 38, 0.8);
   border-color: var(--accent-primary);
   box-shadow: 
-    0 0 0 3px rgba(100, 108, 255, 0.2),
-    inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    0 0 0 4px rgba(124, 58, 237, 0.15),
+    inset 0 2px 8px rgba(0, 0, 0, 0.1),
+    0 8px 32px rgba(124, 58, 237, 0.2);
   transform: translateY(-1px);
+  outline: none;
 }
 
 .searchInput::placeholder {
-  color: var(--secondary-text);
+  color: var(--muted-text);
   font-style: italic;
   font-weight: 400;
 }
 
 .searchButton {
-  padding: var(--spacing-md) var(--spacing-xl);
-  font-size: 1.1rem;
+  padding: var(--spacing-lg) var(--spacing-2xl);
+  font-size: 1.2rem;
   font-weight: 700;
   white-space: nowrap;
-  min-width: 120px;
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  min-width: 140px;
+  background: var(--gradient-primary);
   border: none;
-  box-shadow: 
-    0 4px 15px rgba(100, 108, 255, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+  color: white;
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
   position: relative;
   overflow: hidden;
+  transition: all var(--transition-normal);
+  letter-spacing: 0.025em;
+  cursor: pointer;
 }
 
 .searchButton::before {
@@ -78,42 +115,75 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transition: left 0.6s ease;
+}
+
+.searchButton:hover {
+  background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #d946ef 100%);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: var(--shadow-xl), var(--shadow-glow-strong);
 }
 
 .searchButton:hover::before {
   left: 100%;
 }
 
-.searchButton:hover {
-  background: linear-gradient(135deg, var(--accent-secondary) 0%, #4c51bf 100%);
-  transform: translateY(-2px);
-  box-shadow: 
-    0 6px 20px rgba(100, 108, 255, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
 .searchButton:active {
-  transform: translateY(0);
-  transition-duration: 0.1s;
+  transform: translateY(-1px) scale(1.02);
+  transition-duration: var(--transition-fast);
 }
 
+.searchButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: var(--shadow-md);
+}
+
+.searchButton:disabled:hover {
+  transform: none;
+  background: var(--gradient-primary);
+  box-shadow: var(--shadow-md);
+}
+
+/* Enhanced Responsive Design */
 @media (max-width: 768px) {
   .searchForm {
     flex-direction: column;
-    margin: var(--spacing-md);
+    margin: var(--spacing-xl) var(--spacing-md);
     max-width: none;
+    padding: var(--spacing-md);
+    gap: var(--spacing-md);
   }
   
   .searchInput {
     width: 100%;
+    font-size: 1.1rem;
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+  
+  .searchButton {
+    font-size: 1.1rem;
+    padding: var(--spacing-md) var(--spacing-xl);
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .searchForm {
+    margin: var(--spacing-lg) var(--spacing-sm);
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-lg);
+  }
+  
+  .searchInput {
     font-size: 1rem;
     padding: var(--spacing-sm) var(--spacing-md);
   }
   
   .searchButton {
     font-size: 1rem;
-    min-width: auto;
+    padding: var(--spacing-sm) var(--spacing-lg);
   }
 }

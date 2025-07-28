@@ -9,7 +9,6 @@ import GoogleCallbackPage from "./pages/GoogleCallBackPage";
 import PlaylistsPage from "./pages/PlaylistsPage";
 import PlaylistDetailPage from "./pages/PlaylistDetailPage";
 import HistoryPage from "./pages/HistoryPage";
-import RecommendationsPage from "./pages/RecommendationsPage";
 import Player from "./components/Player";
 import NavbarSearch from "./components/NavbarSearch";
 
@@ -25,7 +24,6 @@ function App() {
               <Link to="/">Home</Link>
               {isLoggedIn ? (
                 <>
-                  <Link to="/recommendations">Discover</Link>
                   <Link to="/playlists">My Playlists</Link>
                   <Link to="/history">History</Link>
                 </>
@@ -65,7 +63,6 @@ function App() {
             path="/auth/google/callback"
             element={<GoogleCallbackPage />}
           />
-          <Route path="/recommendations" element={<RecommendationsPage />} />
           <Route path="/playlists" element={<PlaylistsPage />} />
           <Route path="/playlists/:id" element={<PlaylistDetailPage />} />
           <Route path="/history" element={<HistoryPage />} />

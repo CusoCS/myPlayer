@@ -1,74 +1,270 @@
 /* HomePage.module.css */
 .container {
   text-align: center;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
+  padding: var(--spacing-xl);
+  position: relative;
+  z-index: 1;
 }
 
 .welcomeSection {
-  margin-bottom: var(--spacing-xl);
-  padding: var(--spacing-xl);
-  background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--accent-bg) 100%);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  margin-bottom: var(--spacing-3xl);
+  padding: var(--spacing-3xl) var(--spacing-2xl);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  border: var(--glass-border);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-xl), var(--shadow-glow);
+  position: relative;
+  overflow: hidden;
+  animation: slideInUp 0.8s ease-out;
+}
+
+.welcomeSection::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg at 50% 50%, 
+    transparent 0deg, 
+    rgba(124, 58, 237, 0.1) 60deg, 
+    transparent 120deg,
+    rgba(168, 85, 247, 0.1) 180deg,
+    transparent 240deg,
+    rgba(192, 132, 252, 0.1) 300deg,
+    transparent 360deg
+  );
+  animation: rotate 20s linear infinite;
+  z-index: -1;
+}
+
+.welcomeSection::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  z-index: -1;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .welcomeTitle {
-  font-size: 2.5rem;
-  margin-bottom: var(--spacing-md);
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  margin-bottom: var(--spacing-lg);
+  background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  text-shadow: 0 8px 32px rgba(124, 58, 237, 0.4);
+  animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+  from {
+    filter: drop-shadow(0 0 20px rgba(124, 58, 237, 0.6));
+  }
+  to {
+    filter: drop-shadow(0 0 40px rgba(168, 85, 247, 0.8));
+  }
 }
 
 .welcomeSubtitle {
-  font-size: 1.2rem;
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
   color: var(--secondary-text);
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+  font-weight: 500;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 0.3s forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .guestSection {
-  padding: var(--spacing-xl);
-  background-color: var(--secondary-bg);
-  border-radius: var(--radius-lg);
-  border: 2px dashed var(--accent-bg);
+  padding: var(--spacing-3xl) var(--spacing-2xl);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  border: var(--glass-border);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-xl);
+  position: relative;
+  overflow: hidden;
+  animation: slideInUp 0.8s ease-out;
+}
+
+.guestSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
 }
 
 .guestTitle {
-  color: var(--accent-primary);
-  margin-bottom: var(--spacing-md);
+  color: var(--primary-text);
+  margin-bottom: var(--spacing-lg);
+  font-size: clamp(2rem, 5vw, 3rem);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+  text-shadow: 0 4px 8px rgba(124, 58, 237, 0.3);
+}
+
+.guestSection h2 {
+  color: var(--primary-text);
+  margin-bottom: var(--spacing-lg);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+.guestSection p {
+  max-width: 600px;
+  margin: 0 auto var(--spacing-xl);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--secondary-text);
 }
 
 .authButtons {
   display: flex;
-  gap: var(--spacing-md);
+  gap: var(--spacing-lg);
   justify-content: center;
-  margin-top: var(--spacing-lg);
+  margin-top: var(--spacing-2xl);
+  flex-wrap: wrap;
 }
 
 .authButtons a {
-  padding: var(--spacing-md) var(--spacing-xl);
-  background-color: var(--accent-primary);
+  padding: var(--spacing-lg) var(--spacing-2xl);
+  background: var(--gradient-primary);
   color: white;
   text-decoration: none;
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  transition: all 0.25s ease;
+  border-radius: var(--radius-lg);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.025em;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  position: relative;
+  overflow: hidden;
+  min-width: 160px;
+  text-align: center;
+}
+
+.authButtons a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
 }
 
 .authButtons a:hover {
-  background-color: var(--accent-secondary);
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: var(--shadow-xl), var(--shadow-glow-strong);
+  background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #d946ef 100%);
+}
+
+.authButtons a:hover::before {
+  left: 100%;
+}
+
+.authButtons a:first-child {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  border: var(--glass-border);
+  color: var(--primary-text);
+  box-shadow: var(--shadow-md);
+}
+
+.authButtons a:first-child:hover {
+  background: var(--accent-bg);
+  color: var(--primary-text);
+  box-shadow: var(--shadow-lg);
 }
 
 @media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-lg);
+  }
+  
+  .welcomeSection {
+    padding: var(--spacing-2xl) var(--spacing-lg);
+    margin-bottom: var(--spacing-2xl);
+  }
+  
+  .guestSection {
+    padding: var(--spacing-2xl) var(--spacing-lg);
+  }
+  
   .welcomeTitle {
-    font-size: 2rem;
+    font-size: clamp(2rem, 8vw, 2.5rem);
   }
   
   .authButtons {
     flex-direction: column;
     align-items: center;
+    gap: var(--spacing-md);
+  }
+  
+  .authButtons a {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: var(--spacing-md);
+  }
+  
+  .welcomeSection,
+  .guestSection {
+    padding: var(--spacing-xl) var(--spacing-md);
+    border-radius: var(--radius-lg);
   }
 }
