@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import YouTube from "react-youtube";
 import { useAuth } from "../context/AuthContext";
 import styles from "./Player.module.css";
