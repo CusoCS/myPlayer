@@ -64,7 +64,7 @@
 }
 
 .inputGroup {
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-xs);
 }
 
 .label {
@@ -106,7 +106,7 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.25s ease;
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-xs);
   box-shadow: 0 4px 15px rgba(100, 108, 255, 0.3);
 }
 
@@ -124,8 +124,8 @@
 
 .loginLink {
   text-align: center;
-  margin-top: var(--spacing-lg);
-  padding-top: var(--spacing-lg);
+  margin-top: var(--spacing-xs);
+  padding-top: var(--spacing-xs);
   border-top: 1px solid var(--accent-bg);
   position: relative;
   z-index: 2;

@@ -1,4 +1,4 @@
-from .models import Song, Playlist, PlaylistItem, LikedSong, ListeningHistory
+from .models import Song, Playlist, PlaylistItem, ListeningHistory
 from ninja_jwt.authentication import JWTAuth
 from googleapiclient.discovery import build
 from ninja import NinjaAPI, Schema, Field
@@ -42,7 +42,7 @@ class PlaylistCreateSchema(Schema):
 
 
 class SongInteractionSchema(Schema):
-    # This schema will be used for adding/liking songs
+    # This schema will be used for adding songs
     video_id: str
     title: str
     artist: str = None
@@ -66,7 +66,7 @@ def search_songs(request, query: str):
     youtube = build("youtube", "v3", developerKey=settings.YOUTUBE_API_KEY)
 
     api_request = youtube.search().list(
-        q=query, part="snippet", type="video", maxResults=20, videoCategoryId="10"
+        q=query, part="snippet", type="video", maxResults=5, videoCategoryId="10"
     )
     response = api_request.execute()
 
@@ -89,7 +89,7 @@ def list_playlists(request):
     Lists all playlists owned by the authenticated user and includes the song count.
     """
     playlists = Playlist.objects.filter(owner=request.user).annotate(
-        song_count=Count('playlistitem')
+        song_count=Count("playlistitem")
     )
     return playlists
 
@@ -179,37 +179,6 @@ def get_playlist_details(request, playlist_id: int):
     return playlist
 
 
-@api.post("/songs/like/", auth=JWTAuth())
-def toggle_like_song(request, payload: SongInteractionSchema):
-    # Likes or unlikes a song for the authenticated user.
-    song, created = Song.objects.get_or_create(
-        video_id=payload.video_id,
-        defaults={
-            "title": payload.title,
-            "artist": payload.artist,
-            "thumbnail_url": payload.thumbnail_url,
-        },
-    )
-
-    # Check if the like already exists
-    liked_song, created = LikedSong.objects.get_or_create(user=request.user, song=song)
-
-    if not created:
-        # The like already existed, delete (unlike)
-        liked_song.delete()
-        return {"liked": False}
-    else:
-        # The like was just created
-        return {"liked": True}
-
-
-@api.get("/songs/liked/", response=List[SongSchema], auth=JWTAuth())
-def list_liked_songs(request):
-    # Retrieves a list of all songs liked by the authenticated user.
-    # "Find all Songs for which a 'LikedSong' record exists that is linked to the current user."
-    return Song.objects.filter(likedsong__user=request.user)
-
-
 @api.post("/history/log/", auth=JWTAuth())
 def log_song_played(request, payload: SongInteractionSchema):
     """
@@ -220,16 +189,17 @@ def log_song_played(request, payload: SongInteractionSchema):
     song, created = Song.objects.get_or_create(
         video_id=payload.video_id,
         defaults={
-            'title': payload.title,
-            'artist': payload.artist,
-            'thumbnail_url': payload.thumbnail_url
-        }
+            "title": payload.title,
+            "artist": payload.artist,
+            "thumbnail_url": payload.thumbnail_url,
+        },
     )
-    
+
     # Now that we are guaranteed to have a song object, create the history record
     ListeningHistory.objects.create(user=request.user, song=song)
-    
+
     return {"success": True}
+
 
 @api.get("/history/", response=List[HistoryItemSchema], auth=JWTAuth())
 def get_listening_history(request):

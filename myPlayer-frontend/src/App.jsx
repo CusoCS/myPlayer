@@ -22,15 +22,10 @@ function App() {
           <div className="nav-left">
             <div className="nav-links">
               <Link to="/">Home</Link>
-              {isLoggedIn ? (
+              {isLoggedIn && (
                 <>
                   <Link to="/playlists">My Playlists</Link>
                   <Link to="/history">History</Link>
-                </>
-              ) : (
-                <>
-                  <Link to="/login">Login</Link>
-                  <Link to="/register">Sign Up</Link>
                 </>
               )}
             </div>
@@ -42,16 +37,21 @@ function App() {
             </div>
           )}
           
-          {isLoggedIn && (
-            <div className="nav-right">
+          <div className="nav-right">
+            {isLoggedIn ? (
               <div className="nav-user-info">
                 <span>{user?.first_name}'s Jukebox</span>
                 <button onClick={logout} className="logout-button">
                   Logout
                 </button>
               </div>
-            </div>
-          )}
+            ) : (
+              <div className="nav-links">
+                <Link to="/login">Login</Link>
+                <Link to="/register">Sign Up</Link>
+              </div>
+            )}
+          </div>
         </div>
       </nav>
       <main className="main">

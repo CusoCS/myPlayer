@@ -26,21 +26,6 @@ class Playlist(models.Model):
         return f"{self.name} by {self.owner.username}"
 
 
-class LikedSong(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    song = models.ForeignKey(Song, on_delete=models.CASCADE)
-    created_at = models.DateField(auto_now_add=True)
-
-    class Meta:
-        unique_together = (
-            "user",
-            "song",
-        )  # Makes sure a user can like a song only once
-
-    def __str__(self):
-        return f"{self.user.username} likes {self.song.title}"
-
-
 class PlaylistItem(models.Model):
     playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE)
     song = models.ForeignKey(Song, on_delete=models.CASCADE)
