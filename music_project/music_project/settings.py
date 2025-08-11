@@ -13,13 +13,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-zhb_u#%w#$0i)%z%7uyvxzk#uzn9b0x=j0b1dz(t#y3m4r4k%v"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = [
-    'myplayer-rtqu.onrender.com',
-    'localhost',
-    '127.0.0.1',
-]
+DEBUG = config("DEBUG", default=False, cast=bool)
+
+ALLOWED_HOSTS = ['https://gl-jukebox.onrender.com']
+RENDER_EXTERNAL_HOSTNAME = config("RENDER_EXTERNAL_HOSTNAME", default=None)
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 
 INSTALLED_APPS = [
@@ -114,12 +114,24 @@ WSGI_APPLICATION = "music_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
-        conn_max_age=600
-    )
-}
+# Use DATABASE_URL from .env (loaded via python-decouple) if present; otherwise fall back to sqlite.
+# python-decouple DOES NOT automatically put values into os.environ, so referencing config() directly ensures
+# we actually read the postgres URL defined in the .env file.
+RAW_DATABASE_URL = config("DATABASE_URL", default=None)
+if RAW_DATABASE_URL:
+    # ssl_require=True adds ?sslmode=require for services like Render / Heroku
+    DATABASES = {
+        "default": dj_database_url.parse(
+            RAW_DATABASE_URL, conn_max_age=600, ssl_require=True
+        )
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # Password validation
@@ -156,8 +168,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
