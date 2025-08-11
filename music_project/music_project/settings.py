@@ -15,10 +15,11 @@ SECRET_KEY = "django-insecure-zhb_u#%w#$0i)%z%7uyvxzk#uzn9b0x=j0b1dz(t#y3m4r4k%v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
-RENDER_EXTERNAL_HOSTNAME = config('RENDER_EXTERNAL_HOSTNAME', default=None)
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+ALLOWED_HOSTS = [
+    'myplayer-rtqu.onrender.com',
+    'localhost',
+    '127.0.0.1',
+]
 
 
 INSTALLED_APPS = [
