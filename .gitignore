@@ -1,8 +1,6 @@
 # --- Environment ---
 # Ignore sensitive environment variables.
 # Use a .env.example file to list needed variables for the project.
-.env
-.env.*
 !.env.example
 
 

@@ -1,0 +1,47 @@
+# docker-compose.yml
+services:
+  # The PostgreSQL Database Service
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=tunestream_db
+      - POSTGRES_USER=tunestream_user
+      - POSTGRES_PASSWORD=supersecretpassword
+
+  # The Django Back-End Service
+  backend:
+    build:
+      context: ./music_project  # Path to the Django project
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./music_project:/app
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=your-development-secret-key
+      - DATABASE_URL=postgres://tunestream_user:supersecretpassword@db:5432/tunestream_db
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+    command: >
+      sh -c "python manage.py migrate &&
+             gunicorn music_project.wsgi:application --bind 0.0.0.0:8000"
+    depends_on:
+      - db
+
+  # The React Front-End Service
+  frontend:
+    build:
+      context: ./myPlayer-frontend # Path to the React project
+      args:
+        - VITE_API_URL= # The Nginx proxy path
+        - VITE_GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+    ports:
+      - "5173:80" # Map host port 5173 to container port 80
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
