@@ -35,13 +35,6 @@ cd myPlayer
 ### 2. Check .env file
 It is your own responsibility to ensure API keys are valid.
 
-### 3. Install Node modules
-Enter myPlayer-frontend and install node modules
-```bash
-cd myPlayer-frontend
-npm install
-```
-
 ### 3. Run the Application
 With Docker Desktop open and running on your machine, you can start the entire application stack (database, back-end, and front-end) with a single command from the project's root directory.
 ```bash
@@ -49,8 +42,6 @@ docker-compose up --build
 ```
 
 ### 4. Access the Application
-Once the containers are built and running, you can access the application in your browser at the following addresses:
+Once the containers are built and running, you can access the application in your browser at the following address:
 
 Front-End Application: http://localhost:5173
-
-Back-End API Docs: http://localhost:8000/api/docs

@@ -20,8 +20,6 @@ services:
       - ./music_project:/app
     environment:
       - DEBUG=True
-      - SECRET_KEY=your-development-secret-key
-      - DATABASE_URL=postgres://tunestream_user:supersecretpassword@db:5432/tunestream_db
       - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
