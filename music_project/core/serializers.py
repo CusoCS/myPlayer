@@ -2,6 +2,7 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
 
 class CustomRegisterSerializer(RegisterSerializer):
+    _has_phone_field = False
     first_name = serializers.CharField(max_length=30, required=False)
     last_name = serializers.CharField(max_length=150, required=False)
 

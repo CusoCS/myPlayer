@@ -1,4 +1,4 @@
-# 🎵 TuneStream - A Decoupled Music Streaming Application
+# 🎵 GL Jukebox - A Decoupled Music Streaming Application
 
 ## ✨ Key Features
 
