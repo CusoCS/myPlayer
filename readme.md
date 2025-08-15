@@ -45,3 +45,20 @@ docker-compose up --build
 Once the containers are built and running, you can access the application in your browser at the following address:
 
 Front-End Application: http://localhost:5173
+
+Back-End API Docs: http://localhost:8000/api/docs
+
+### 5. Create a Superuser (Optional)
+To access the Django admin panel, you'll need to create a superuser.
+
+With the containers running, open a new, separate terminal window.
+Run the following command to open a shell inside the backend container:
+```bash
+docker-compose exec backend bash
+```
+Now, inside the container's shell, run the standard Django command:
+```bash
+python manage.py createsuperuser
+```
+Follow the prompts to create your admin account. You can then log in at:
+http://localhost:8000/admin
