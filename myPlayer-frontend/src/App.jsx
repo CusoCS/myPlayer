@@ -30,13 +30,13 @@ function App() {
               )}
             </div>
           </div>
-          
+
           {isLoggedIn && (
             <div className="nav-center">
               <NavbarSearch />
             </div>
           )}
-          
+
           <div className="nav-right">
             {isLoggedIn ? (
               <div className="nav-user-info">

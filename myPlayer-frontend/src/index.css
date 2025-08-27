@@ -1,6 +1,7 @@
 :root {
   /* Typography */
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    system-ui, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -11,23 +12,33 @@
   --surface-bg: #171717;
   --glass-bg: rgba(26, 26, 26, 0.8);
   --card-bg: rgba(38, 38, 38, 0.6);
-  
+
   --primary-text: rgba(255, 255, 255, 0.95);
   --secondary-text: rgba(255, 255, 255, 0.65);
   --accent-text: #7c3aed;
   --muted-text: rgba(255, 255, 255, 0.4);
-  
+
   /* Modern Purple Gradient Accent */
   --accent-primary: #7c3aed;
   --accent-secondary: #a855f7;
   --accent-tertiary: #c084fc;
-  --gradient-primary: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%);
-  --gradient-secondary: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
-  
+  --gradient-primary: linear-gradient(
+    135deg,
+    #7c3aed 0%,
+    #a855f7 50%,
+    #c084fc 100%
+  );
+  --gradient-secondary: linear-gradient(
+    135deg,
+    #1e1b4b 0%,
+    #312e81 50%,
+    #4c1d95 100%
+  );
+
   --success: #10b981;
   --warning: #f59e0b;
   --error: #ef4444;
-  
+
   /* Enhanced Spacing */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
@@ -36,14 +47,14 @@
   --spacing-xl: 2rem;
   --spacing-2xl: 3rem;
   --spacing-3xl: 4rem;
-  
+
   /* Modern Border Radius */
   --radius-sm: 6px;
   --radius-md: 12px;
   --radius-lg: 20px;
   --radius-xl: 24px;
   --radius-2xl: 32px;
-  
+
   /* Premium Shadows */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -51,11 +62,11 @@
   --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.2);
   --shadow-glow: 0 0 30px rgba(124, 58, 237, 0.3);
   --shadow-glow-strong: 0 0 50px rgba(124, 58, 237, 0.5);
-  
+
   /* Glassmorphism */
   --glass-border: 1px solid rgba(255, 255, 255, 0.1);
   --glass-backdrop: blur(16px);
-  
+
   /* Animations */
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s ease;
@@ -91,9 +102,16 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: 
-    radial-gradient(ellipse at top, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse at bottom, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
+  background: radial-gradient(
+      ellipse at top,
+      rgba(124, 58, 237, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at bottom,
+      rgba(168, 85, 247, 0.08) 0%,
+      transparent 50%
+    ),
     linear-gradient(180deg, var(--primary-bg) 0%, var(--surface-bg) 100%);
   background-attachment: fixed;
   overflow-x: hidden;
@@ -106,14 +124,17 @@ body {
 
 /* Add subtle animated background particles */
 #root::before {
-  content: '';
+  content: "";
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
-    radial-gradient(1px 1px at 20px 30px, rgba(124, 58, 237, 0.1), transparent),
+  background-image: radial-gradient(
+      1px 1px at 20px 30px,
+      rgba(124, 58, 237, 0.1),
+      transparent
+    ),
     radial-gradient(1px 1px at 40px 70px, rgba(168, 85, 247, 0.1), transparent),
     radial-gradient(1px 1px at 90px 40px, rgba(192, 132, 252, 0.1), transparent),
     radial-gradient(1px 1px at 130px 80px, rgba(124, 58, 237, 0.1), transparent);
@@ -125,12 +146,24 @@ body {
 }
 
 @keyframes sparkle {
-  0%, 100% { transform: translateY(0); opacity: 0.3; }
-  50% { transform: translateY(-10px); opacity: 0.6; }
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-10px);
+    opacity: 0.6;
+  }
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--primary-text);
   margin-top: 0;
   font-weight: 700;
@@ -189,13 +222,18 @@ button {
 }
 
 button::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
   transition: left 0.5s ease;
 }
 
@@ -234,7 +272,8 @@ button:disabled:hover {
 }
 
 /* Enhanced Input fields */
-input, textarea {
+input,
+textarea {
   background: var(--glass-bg);
   backdrop-filter: var(--glass-backdrop);
   border: var(--glass-border);
@@ -248,18 +287,18 @@ input, textarea {
   box-shadow: var(--shadow-sm);
 }
 
-input:focus, textarea:focus {
+input:focus,
+textarea:focus {
   outline: none;
   border-color: var(--accent-primary);
-  box-shadow: 
-    var(--shadow-md),
-    0 0 0 3px rgba(124, 58, 237, 0.15),
+  box-shadow: var(--shadow-md), 0 0 0 3px rgba(124, 58, 237, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transform: translateY(-1px);
   background: rgba(26, 26, 26, 0.9);
 }
 
-input::placeholder, textarea::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: var(--muted-text);
   font-weight: 400;
 }
@@ -284,11 +323,11 @@ label {
   form {
     padding: var(--spacing-md);
   }
-  
+
   h1 {
     font-size: 2rem;
   }
-  
+
   h2 {
     font-size: 1.5rem;
   }

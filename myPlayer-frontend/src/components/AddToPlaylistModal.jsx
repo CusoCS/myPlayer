@@ -6,9 +6,9 @@ import styles from "./AddToPlaylistModal.module.css";
 const AddToPlaylistModal = ({ song, onClose }) => {
   const [playlists, setPlaylists] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [message, setMessage] = useState({ type: '', text: '' });
+  const [message, setMessage] = useState({ type: "", text: "" });
   const [showCreateNew, setShowCreateNew] = useState(false);
-  const [newPlaylistName, setNewPlaylistName] = useState('');
+  const [newPlaylistName, setNewPlaylistName] = useState("");
   const navigate = useNavigate();
 
   // Fetch the user's playlists when the modal opens
@@ -20,7 +20,7 @@ const AddToPlaylistModal = ({ song, onClose }) => {
         setPlaylists(response.data);
       } catch (error) {
         console.error("Failed to fetch playlists", error);
-        setMessage({ type: 'error', text: 'Failed to load playlists' });
+        setMessage({ type: "error", text: "Failed to load playlists" });
       } finally {
         setIsLoading(false);
       }
@@ -31,13 +31,13 @@ const AddToPlaylistModal = ({ song, onClose }) => {
   // Handle adding the song to the selected playlist
   const handlePlaylistSelect = async (playlistId, playlistName) => {
     try {
-      setMessage({ type: '', text: '' });
+      setMessage({ type: "", text: "" });
       await api.post(`/api/playlists/${playlistId}/add-song/`, song);
-      setMessage({ 
-        type: 'success', 
-        text: `✅ "${song.title}" added to "${playlistName}"!` 
+      setMessage({
+        type: "success",
+        text: `✅ "${song.title}" added to "${playlistName}"!`,
       });
-      
+
       // Auto-close after 2 seconds on success
       setTimeout(() => {
         onClose();
@@ -45,14 +45,14 @@ const AddToPlaylistModal = ({ song, onClose }) => {
     } catch (error) {
       console.error("Failed to add song to playlist", error);
       if (error.response?.status === 400) {
-        setMessage({ 
-          type: 'error', 
-          text: 'This song is already in that playlist' 
+        setMessage({
+          type: "error",
+          text: "This song is already in that playlist",
         });
       } else {
-        setMessage({ 
-          type: 'error', 
-          text: 'Failed to add song. Please try again.' 
+        setMessage({
+          type: "error",
+          text: "Failed to add song. Please try again.",
         });
       }
     }
@@ -64,30 +64,33 @@ const AddToPlaylistModal = ({ song, onClose }) => {
     if (!newPlaylistName.trim()) return;
 
     try {
-      setMessage({ type: '', text: '' });
-      
+      setMessage({ type: "", text: "" });
+
       // Create the playlist
-      const playlistResponse = await api.post("/api/playlists/", { 
-        name: newPlaylistName.trim() 
+      const playlistResponse = await api.post("/api/playlists/", {
+        name: newPlaylistName.trim(),
       });
-      
+
       // Add the song to the new playlist
-      await api.post(`/api/playlists/${playlistResponse.data.id}/add-song/`, song);
-      
-      setMessage({ 
-        type: 'success', 
-        text: `✅ Created "${newPlaylistName}" and added "${song.title}"!` 
+      await api.post(
+        `/api/playlists/${playlistResponse.data.id}/add-song/`,
+        song
+      );
+
+      setMessage({
+        type: "success",
+        text: `✅ Created "${newPlaylistName}" and added "${song.title}"!`,
       });
-      
+
       // Auto-close after 2 seconds on success
       setTimeout(() => {
         onClose();
       }, 2000);
     } catch (error) {
       console.error("Failed to create playlist", error);
-      setMessage({ 
-        type: 'error', 
-        text: 'Failed to create playlist. Please try again.' 
+      setMessage({
+        type: "error",
+        text: "Failed to create playlist. Please try again.",
       });
     }
   };
@@ -102,13 +105,13 @@ const AddToPlaylistModal = ({ song, onClose }) => {
   // Handle escape key to close modal
   useEffect(() => {
     const handleEscape = (e) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         onClose();
       }
     };
 
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
   }, [onClose]);
 
   return (
@@ -117,10 +120,10 @@ const AddToPlaylistModal = ({ song, onClose }) => {
         <div className={styles.modalHeader}>
           <div className={styles.modalIcon}>🎵</div>
           <h2 className={styles.modalTitle}>Add to Playlist</h2>
-          
+
           <div className={styles.songInfo}>
-            <img 
-              src={song.thumbnail_url} 
+            <img
+              src={song.thumbnail_url}
               alt={song.title}
               className={styles.songThumbnail}
             />
@@ -133,7 +136,13 @@ const AddToPlaylistModal = ({ song, onClose }) => {
 
         {/* Message display */}
         {message.text && (
-          <div className={message.type === 'success' ? styles.successMessage : styles.errorMessage}>
+          <div
+            className={
+              message.type === "success"
+                ? styles.successMessage
+                : styles.errorMessage
+            }
+          >
             {message.text}
           </div>
         )}
@@ -141,11 +150,12 @@ const AddToPlaylistModal = ({ song, onClose }) => {
         {/* Create new playlist form */}
         {showCreateNew && (
           <div className={styles.playlistsSection}>
-            <h3 className={styles.sectionTitle}>
-              ✨ Create New Playlist
-            </h3>
-            <form onSubmit={handleCreateNewPlaylist} style={{ marginBottom: 'var(--spacing-md)' }}>
-              <div style={{ display: 'flex', gap: 'var(--spacing-sm)' }}>
+            <h3 className={styles.sectionTitle}>✨ Create New Playlist</h3>
+            <form
+              onSubmit={handleCreateNewPlaylist}
+              style={{ marginBottom: "var(--spacing-md)" }}
+            >
+              <div style={{ display: "flex", gap: "var(--spacing-sm)" }}>
                 <input
                   type="text"
                   value={newPlaylistName}
@@ -153,12 +163,12 @@ const AddToPlaylistModal = ({ song, onClose }) => {
                   placeholder="Enter playlist name..."
                   style={{
                     flex: 1,
-                    background: 'var(--surface-bg)',
-                    border: '1px solid var(--accent-bg)',
-                    borderRadius: 'var(--radius-md)',
-                    padding: 'var(--spacing-sm) var(--spacing-md)',
-                    color: 'var(--primary-text)',
-                    fontSize: '0.9rem'
+                    background: "var(--surface-bg)",
+                    border: "1px solid var(--accent-bg)",
+                    borderRadius: "var(--radius-md)",
+                    padding: "var(--spacing-sm) var(--spacing-md)",
+                    color: "var(--primary-text)",
+                    fontSize: "0.9rem",
                   }}
                   autoFocus
                   maxLength={100}
@@ -175,16 +185,18 @@ const AddToPlaylistModal = ({ song, onClose }) => {
           <h3 className={styles.sectionTitle}>
             📂 Choose Playlist
             {playlists.length > 0 && (
-              <span style={{ 
-                fontSize: '0.8rem', 
-                color: 'var(--secondary-text)',
-                fontWeight: 'normal'
-              }}>
-                ({playlists.length} playlist{playlists.length !== 1 ? 's' : ''})
+              <span
+                style={{
+                  fontSize: "0.8rem",
+                  color: "var(--secondary-text)",
+                  fontWeight: "normal",
+                }}
+              >
+                ({playlists.length} playlist{playlists.length !== 1 ? "s" : ""})
               </span>
             )}
           </h3>
-          
+
           {isLoading ? (
             <div className={styles.loading}>
               <div className={styles.loadingSpinner}></div>
@@ -195,14 +207,19 @@ const AddToPlaylistModal = ({ song, onClose }) => {
                 <div
                   key={playlist.id}
                   className={styles.playlistItem}
-                  onClick={() => handlePlaylistSelect(playlist.id, playlist.name)}
+                  onClick={() =>
+                    handlePlaylistSelect(playlist.id, playlist.name)
+                  }
                 >
                   <div className={styles.playlistIcon}>🎶</div>
                   <div className={styles.playlistContent}>
                     <h4 className={styles.playlistName}>{playlist.name}</h4>
                     <div className={styles.playlistMeta}>
                       <span>{playlist.song_count} songs</span>
-                      <span>Updated {new Date(playlist.updated_at).toLocaleDateString()}</span>
+                      <span>
+                        Updated{" "}
+                        {new Date(playlist.updated_at).toLocaleDateString()}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -220,17 +237,14 @@ const AddToPlaylistModal = ({ song, onClose }) => {
         </div>
 
         <div className={styles.modalActions}>
-          <button 
-            onClick={onClose} 
-            className={styles.cancelButton}
-          >
+          <button onClick={onClose} className={styles.cancelButton}>
             ❌ Cancel
           </button>
-          <button 
+          <button
             onClick={() => setShowCreateNew(!showCreateNew)}
             className={styles.createNewButton}
           >
-            {showCreateNew ? '📂 Choose Existing' : '➕ Create New'}
+            {showCreateNew ? "📂 Choose Existing" : "➕ Create New"}
           </button>
         </div>
       </div>

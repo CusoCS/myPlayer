@@ -109,8 +109,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .queueControls {
@@ -235,7 +239,7 @@
 }
 
 .saveQueueButton {
-  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
   border: none;
   color: white;
   padding: 8px 12px;
@@ -342,7 +346,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -356,39 +361,39 @@
     padding: 12px 16px 6px;
     height: 65px;
   }
-  
+
   .progressContainer {
     padding: 6px 16px 12px;
   }
-  
+
   .songInfo {
     flex: 0 0 35%;
   }
-  
+
   .songTitle {
     font-size: 14px;
   }
-  
+
   .songArtist {
     font-size: 12px;
   }
-  
+
   .controlBtn {
     font-size: 14px;
     padding: 8px;
   }
-  
+
   .playPauseBtn {
     width: 42px;
     height: 42px;
     font-size: 16px;
   }
-  
+
   .queueBtn {
     font-size: 11px;
     padding: 6px 10px;
   }
-  
+
   .timeDisplay {
     font-size: 10px;
     min-width: 30px;
@@ -400,38 +405,38 @@
     padding: 10px 12px 4px;
     height: 60px;
   }
-  
+
   .progressContainer {
     padding: 4px 12px 10px;
     gap: 8px;
   }
-  
+
   .queueControls .queueBtn {
     padding: 5px 8px;
     font-size: 10px;
   }
-  
+
   .songDetails {
     display: none;
   }
-  
+
   .songInfo {
     flex: 0 0 auto;
   }
-  
+
   .playerControls {
     gap: 8px;
   }
-  
+
   .controlBtn {
     padding: 6px;
   }
-  
+
   .playPauseBtn {
     width: 38px;
     height: 38px;
   }
-  
+
   .timeDisplay {
     display: none;
   }

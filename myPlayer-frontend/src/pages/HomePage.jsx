@@ -20,7 +20,7 @@ const HomePage = () => {
 
   // Handle search from URL parameters (from navbar search)
   useEffect(() => {
-    const searchQuery = searchParams.get('search');
+    const searchQuery = searchParams.get("search");
     if (searchQuery && user) {
       handleSearch(searchQuery);
       // Clear the search parameter from URL after processing
@@ -33,7 +33,7 @@ const HomePage = () => {
       setSearchResults(null);
       return;
     }
-    
+
     setIsLoading(true);
     try {
       const response = await api.get(`/api/songs/search/?query=${query}`);
@@ -90,8 +90,9 @@ const HomePage = () => {
           <h1 className={styles.guestTitle}>🎵 GL Jukebox</h1>
           <h2>Your Personal Music Experience Awaits!</h2>
           <p>
-            Create playlists, discover music, and enjoy your favorite songs all in one place.
-            Join our community and start your musical journey today.
+            Create playlists, discover music, and enjoy your favorite songs all
+            in one place. Join our community and start your musical journey
+            today.
           </p>
           <div className={styles.authButtons}>
             <Link to="/login">Sign In</Link>

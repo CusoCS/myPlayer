@@ -1,4 +1,3 @@
-/* LoginPage.module.css */
 .container {
   max-width: 400px;
   margin: 0 auto;
@@ -6,7 +5,11 @@
 }
 
 .formCard {
-  background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--accent-bg) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--secondary-bg) 0%,
+    var(--accent-bg) 100%
+  );
   padding: var(--spacing-xl);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
@@ -16,19 +19,27 @@
 }
 
 .formCard::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(100, 108, 255, 0.1) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(100, 108, 255, 0.1) 0%,
+    transparent 70%
+  );
   animation: rotate 20s linear infinite;
 }
 
 @keyframes rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .header {
@@ -47,7 +58,11 @@
   font-size: 2rem;
   font-weight: 700;
   margin: 0 0 var(--spacing-sm) 0;
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--accent-primary) 0%,
+    var(--accent-secondary) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -89,15 +104,18 @@
 .input:focus {
   border-color: var(--accent-primary);
   background-color: var(--accent-bg);
-  box-shadow: 
-    0 0 0 3px rgba(100, 108, 255, 0.2),
+  box-shadow: 0 0 0 3px rgba(100, 108, 255, 0.2),
     inset 0 2px 4px rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
 }
 
 .submitButton {
   width: 100%;
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--accent-primary) 0%,
+    var(--accent-secondary) 100%
+  );
   color: white;
   border: none;
   padding: var(--spacing-md) var(--spacing-lg);
@@ -125,7 +143,7 @@
 
 .divider::before,
 .divider::after {
-  content: '';
+  content: "";
   flex: 1;
   height: 1px;
   background: var(--accent-bg);
@@ -158,13 +176,18 @@
 }
 
 .googleButton::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
   transition: left 0.5s ease;
 }
 
@@ -192,11 +215,11 @@
   .container {
     padding: var(--spacing-md);
   }
-  
+
   .formCard {
     padding: var(--spacing-lg);
   }
-  
+
   .title {
     font-size: 1.8rem;
   }

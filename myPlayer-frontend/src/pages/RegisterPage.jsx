@@ -61,7 +61,7 @@ const RegisterPage = () => {
           <h2 className={styles.title}>Create Account</h2>
           <p className={styles.subtitle}>Join the music community</p>
         </div>
-        
+
         <form onSubmit={handleRegistration} noValidate className={styles.form}>
           <div className={styles.inputGroup}>
             <label className={styles.label}>First Name</label>
@@ -74,12 +74,18 @@ const RegisterPage = () => {
               placeholder="Enter your first name"
             />
             {errors.first_name && (
-              <p style={{ color: "var(--error-color)", fontSize: "0.85rem", marginTop: "4px" }}>
+              <p
+                style={{
+                  color: "var(--error-color)",
+                  fontSize: "0.85rem",
+                  marginTop: "4px",
+                }}
+              >
                 {errors.first_name[0]}
               </p>
             )}
           </div>
-          
+
           <div className={styles.inputGroup}>
             <label className={styles.label}>Last Name</label>
             <input
@@ -91,12 +97,18 @@ const RegisterPage = () => {
               placeholder="Enter your last name"
             />
             {errors.last_name && (
-              <p style={{ color: "var(--error-color)", fontSize: "0.85rem", marginTop: "4px" }}>
+              <p
+                style={{
+                  color: "var(--error-color)",
+                  fontSize: "0.85rem",
+                  marginTop: "4px",
+                }}
+              >
                 {errors.last_name[0]}
               </p>
             )}
           </div>
-          
+
           <div className={styles.inputGroup}>
             <label className={styles.label}>Email</label>
             <input
@@ -108,12 +120,18 @@ const RegisterPage = () => {
               placeholder="Enter your email"
             />
             {errors.email && (
-              <p style={{ color: "var(--error-color)", fontSize: "0.85rem", marginTop: "4px" }}>
+              <p
+                style={{
+                  color: "var(--error-color)",
+                  fontSize: "0.85rem",
+                  marginTop: "4px",
+                }}
+              >
                 {errors.email[0]}
               </p>
             )}
           </div>
-          
+
           <div className={styles.inputGroup}>
             <label className={styles.label}>Password</label>
             <input
@@ -125,17 +143,29 @@ const RegisterPage = () => {
               placeholder="Create a password"
             />
             {errors.password && (
-              <p style={{ color: "var(--error-color)", fontSize: "0.85rem", marginTop: "4px" }}>
+              <p
+                style={{
+                  color: "var(--error-color)",
+                  fontSize: "0.85rem",
+                  marginTop: "4px",
+                }}
+              >
                 {errors.password[0]}
               </p>
             )}
             {errors.password1 && (
-              <p style={{ color: "var(--error-color)", fontSize: "0.85rem", marginTop: "4px" }}>
+              <p
+                style={{
+                  color: "var(--error-color)",
+                  fontSize: "0.85rem",
+                  marginTop: "4px",
+                }}
+              >
                 {errors.password1[0]}
               </p>
             )}
           </div>
-          
+
           <div className={styles.inputGroup}>
             <label className={styles.label}>Confirm Password</label>
             <input
@@ -147,29 +177,44 @@ const RegisterPage = () => {
               placeholder="Confirm your password"
             />
             {errors.password2 && (
-              <p style={{ color: "var(--error-color)", fontSize: "0.85rem", marginTop: "4px" }}>
+              <p
+                style={{
+                  color: "var(--error-color)",
+                  fontSize: "0.85rem",
+                  marginTop: "4px",
+                }}
+              >
                 {errors.password2[0]}
               </p>
             )}
           </div>
 
           {errors.general && (
-            <p style={{ color: "var(--error-color)", fontSize: "0.85rem", textAlign: "center", marginBottom: "1rem" }}>
+            <p
+              style={{
+                color: "var(--error-color)",
+                fontSize: "0.85rem",
+                textAlign: "center",
+                marginBottom: "1rem",
+              }}
+            >
               {errors.general[0]}
             </p>
           )}
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className={styles.submitButton}
             disabled={isLoading}
           >
             {isLoading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
-        
+
         <div className={styles.loginLink}>
-          <p>Already have an account? <Link to="/login">Sign In</Link></p>
+          <p>
+            Already have an account? <Link to="/login">Sign In</Link>
+          </p>
         </div>
       </div>
     </div>

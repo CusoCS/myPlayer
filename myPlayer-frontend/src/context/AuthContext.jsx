@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api"; // Use your configured axios instance for logout
 
@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   /**
-   * ✨ NEW: This hook watches for changes to the currently playing song
+   * This hook watches for changes to the currently playing song
    * and logs it to the user's history.
    */
   useEffect(() => {
@@ -165,66 +165,69 @@ export const AuthProvider = ({ children }) => {
     playPlaylist(shuffledItems, 0);
   };
 
-    /**
-     * ✨ NEW: Adds a song to the play queue immediately after the current song.
-     * @param {object} song - The full song object to add.
-     */
-    const addToQueue = (song) => {
-        // If nothing is playing, just start playing the song
-        if (currentTrackIndex === -1) {
-            selectSong(song);
-            return;
-        }
+  /**
+   * Adds a song to the play queue immediately after the current song.
+   * @param {object} song - The full song object to add.
+   */
+  const addToQueue = (song) => {
+    // If nothing is playing, just start playing the song
+    if (currentTrackIndex === -1) {
+      selectSong(song);
+      return;
+    }
 
-        // Create a new queue by inserting the song after the current one
-        const newQueue = [
-            ...playQueue.slice(0, currentTrackIndex + 1),
-            song,
-            ...playQueue.slice(currentTrackIndex + 1),
-        ];
-        
-        setPlayQueue(newQueue);
-        alert(`"${song.title}" added to queue!`);
-    };
+    // Create a new queue by inserting the song after the current one
+    const newQueue = [
+      ...playQueue.slice(0, currentTrackIndex + 1),
+      song,
+      ...playQueue.slice(currentTrackIndex + 1),
+    ];
 
-    /**
-     * ✨ NEW: Converts the current queue to a new playlist
-     * @param {string} playlistName - The name for the new playlist
-     */
-    const convertQueueToPlaylist = async (playlistName) => {
-        if (playQueue.length === 0) {
-            alert("Queue is empty!");
-            return false;
-        }
+    setPlayQueue(newQueue);
+    alert(`"${song.title}" added to queue!`);
+  };
 
-        try {
-            // Create the playlist
-            const playlistResponse = await api.post("/api/playlists/", {
-                name: playlistName,
-                description: `Created from queue on ${new Date().toLocaleDateString()}`
-            });
+  /**
+   * Converts the current queue to a new playlist
+   * @param {string} playlistName - The name for the new playlist
+   */
+  const convertQueueToPlaylist = async (playlistName) => {
+    if (playQueue.length === 0) {
+      alert("Queue is empty!");
+      return false;
+    }
 
-            const playlistId = playlistResponse.data.id;
+    try {
+      // Create the playlist
+      const playlistResponse = await api.post("/api/playlists/", {
+        name: playlistName,
+        description: `Created from queue on ${new Date().toLocaleDateString()}`,
+      });
 
-            // Add all songs from queue to the playlist
-            for (let i = 0; i < playQueue.length; i++) {
-                const song = playQueue[i];
-                await api.post(`/api/playlists/${playlistId}/add-song/`, {
-                    video_id: song.video_id,
-                    title: song.title,
-                    artist: song.artist,
-                    thumbnail_url: song.thumbnail_url
-                });
-            }
+      const playlistId = playlistResponse.data.id;
 
-            alert(`Successfully created playlist "${playlistName}" with ${playQueue.length} songs!`);
-            return true;
-        } catch (error) {
-            console.error("Failed to convert queue to playlist:", error);
-            alert("Failed to create playlist. Please try again.");
-            return false;
-        }
-    };  const value = {
+      // Add all songs from queue to the playlist
+      for (let i = 0; i < playQueue.length; i++) {
+        const song = playQueue[i];
+        await api.post(`/api/playlists/${playlistId}/add-song/`, {
+          video_id: song.video_id,
+          title: song.title,
+          artist: song.artist,
+          thumbnail_url: song.thumbnail_url,
+        });
+      }
+
+      alert(
+        `Successfully created playlist "${playlistName}" with ${playQueue.length} songs!`
+      );
+      return true;
+    } catch (error) {
+      console.error("Failed to convert queue to playlist:", error);
+      alert("Failed to create playlist. Please try again.");
+      return false;
+    }
+  };
+  const value = {
     isLoggedIn,
     user,
     nowPlaying,
@@ -242,7 +245,7 @@ export const AuthProvider = ({ children }) => {
     toggleQueue,
     shufflePlaylist,
     addToQueue,
-    convertQueueToPlaylist
+    convertQueueToPlaylist,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

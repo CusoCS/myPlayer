@@ -25,12 +25,12 @@ const HistoryPage = () => {
     const date = new Date(dateString);
     const now = new Date();
     const diffInMinutes = Math.floor((now - date) / (1000 * 60));
-    
+
     if (diffInMinutes < 60) {
-      return `${diffInMinutes} min${diffInMinutes !== 1 ? 's' : ''} ago`;
+      return `${diffInMinutes} min${diffInMinutes !== 1 ? "s" : ""} ago`;
     } else if (diffInMinutes < 1440) {
       const hours = Math.floor(diffInMinutes / 60);
-      return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+      return `${hours} hour${hours !== 1 ? "s" : ""} ago`;
     } else {
       return date.toLocaleDateString("en-US", {
         month: "short",

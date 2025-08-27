@@ -1,4 +1,3 @@
-/* HomePage.module.css */
 .container {
   text-align: center;
   max-width: 1000px;
@@ -22,16 +21,16 @@
 }
 
 .welcomeSection::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
   width: 200%;
   height: 200%;
   background: conic-gradient(
-    from 0deg at 50% 50%, 
-    transparent 0deg, 
-    rgba(124, 58, 237, 0.1) 60deg, 
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    rgba(124, 58, 237, 0.1) 60deg,
     transparent 120deg,
     rgba(168, 85, 247, 0.1) 180deg,
     transparent 240deg,
@@ -43,7 +42,7 @@
 }
 
 .welcomeSection::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -55,8 +54,12 @@
 }
 
 @keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes slideInUp {
@@ -130,7 +133,7 @@
 }
 
 .guestSection::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -193,13 +196,18 @@
 }
 
 .authButtons a::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
   transition: left 0.5s ease;
 }
 
@@ -231,26 +239,26 @@
   .container {
     padding: var(--spacing-lg);
   }
-  
+
   .welcomeSection {
     padding: var(--spacing-2xl) var(--spacing-lg);
     margin-bottom: var(--spacing-2xl);
   }
-  
+
   .guestSection {
     padding: var(--spacing-2xl) var(--spacing-lg);
   }
-  
+
   .welcomeTitle {
     font-size: clamp(2rem, 8vw, 2.5rem);
   }
-  
+
   .authButtons {
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-md);
   }
-  
+
   .authButtons a {
     width: 100%;
     max-width: 280px;
@@ -261,7 +269,7 @@
   .container {
     padding: var(--spacing-md);
   }
-  
+
   .welcomeSection,
   .guestSection {
     padding: var(--spacing-xl) var(--spacing-md);

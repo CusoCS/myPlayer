@@ -1,7 +1,13 @@
 import SongCard from "./SongCard";
 import styles from "./SearchResults.module.css";
 
-const SearchResults = ({ results, onSongSelect, onAddToPlaylist, onAddToQueue, isLoading }) => {
+const SearchResults = ({
+  results,
+  onSongSelect,
+  onAddToPlaylist,
+  onAddToQueue,
+  isLoading,
+}) => {
   if (isLoading) {
     return (
       <div className={styles.loading}>
@@ -13,12 +19,10 @@ const SearchResults = ({ results, onSongSelect, onAddToPlaylist, onAddToQueue, i
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h3 className={styles.title}>
-          🎵 Search Results
-        </h3>
+        <h3 className={styles.title}>🎵 Search Results</h3>
         {results.length > 0 && (
           <span className={styles.resultCount}>
-            {results.length} song{results.length !== 1 ? 's' : ''} found
+            {results.length} song{results.length !== 1 ? "s" : ""} found
           </span>
         )}
       </div>

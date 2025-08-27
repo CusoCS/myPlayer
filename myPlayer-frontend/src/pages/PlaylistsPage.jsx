@@ -27,7 +27,7 @@ const PlaylistsPage = () => {
   const handleCreatePlaylist = async (e) => {
     e.preventDefault();
     if (!newPlaylistName.trim()) return;
-    
+
     try {
       await api.post("/api/playlists/", { name: newPlaylistName.trim() });
       setNewPlaylistName(""); // Clear input field
@@ -39,7 +39,11 @@ const PlaylistsPage = () => {
   };
 
   const handleDeletePlaylist = async (playlistId, playlistName) => {
-    if (window.confirm(`Are you sure you want to delete "${playlistName}"? This action cannot be undone.`)) {
+    if (
+      window.confirm(
+        `Are you sure you want to delete "${playlistName}"? This action cannot be undone.`
+      )
+    ) {
       try {
         await api.delete(`/api/playlists/${playlistId}/`);
         fetchPlaylists(); // Refresh the list after deleting
@@ -91,20 +95,30 @@ const PlaylistsPage = () => {
         <div className={styles.playlistsGrid}>
           {playlists.map((playlist) => (
             <div key={playlist.id} className={styles.playlistCard}>
-              <Link to={`/playlists/${playlist.id}`} className={styles.playlistLink}>
+              <Link
+                to={`/playlists/${playlist.id}`}
+                className={styles.playlistLink}
+              >
                 <div className={styles.playlistIcon}>🎶</div>
                 <h3 className={styles.playlistName}>{playlist.name}</h3>
                 <div className={styles.playlistInfo}>
                   <span>{playlist.song_count} songs</span>
-                  <span>Updated {new Date(playlist.updated_at).toLocaleDateString()}</span>
+                  <span>
+                    Updated {new Date(playlist.updated_at).toLocaleDateString()}
+                  </span>
                 </div>
               </Link>
               <div className={styles.playlistActions}>
-                <Link to={`/playlists/${playlist.id}`} className={styles.viewButton}>
+                <Link
+                  to={`/playlists/${playlist.id}`}
+                  className={styles.viewButton}
+                >
                   👁 View
                 </Link>
                 <button
-                  onClick={() => handleDeletePlaylist(playlist.id, playlist.name)}
+                  onClick={() =>
+                    handleDeletePlaylist(playlist.id, playlist.name)
+                  }
                   className={styles.deleteButton}
                 >
                   🗑 Delete
@@ -118,7 +132,8 @@ const PlaylistsPage = () => {
           <div className={styles.emptyIcon}>📱</div>
           <h3 className={styles.emptyTitle}>No playlists yet</h3>
           <p className={styles.emptyText}>
-            Create your first playlist above to start organizing your favorite songs!
+            Create your first playlist above to start organizing your favorite
+            songs!
           </p>
         </div>
       )}

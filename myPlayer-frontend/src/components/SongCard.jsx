@@ -14,9 +14,9 @@ const SongCard = ({ song, onSongSelect, onAddToPlaylist, onAddToQueue }) => {
   return (
     <div className={styles.songCard} onClick={() => onSongSelect(song)}>
       <div className={styles.thumbnailContainer}>
-        <img 
-          src={song.thumbnail_url} 
-          alt={song.title} 
+        <img
+          src={song.thumbnail_url}
+          alt={song.title}
           className={styles.thumbnail}
         />
         <div className={styles.playOverlay}>
@@ -27,10 +27,16 @@ const SongCard = ({ song, onSongSelect, onAddToPlaylist, onAddToQueue }) => {
         <h4 className={styles.title}>{song.title}</h4>
         <p className={styles.artist}>{song.artist}</p>
         <div className={styles.actions}>
-          <button onClick={handleAddClick} className={`${styles.actionButton} ${styles.playlistButton}`}>
+          <button
+            onClick={handleAddClick}
+            className={`${styles.actionButton} ${styles.playlistButton}`}
+          >
             ➕ Playlist
           </button>
-          <button onClick={handleQueueClick} className={`${styles.actionButton} ${styles.queueButton}`}>
+          <button
+            onClick={handleQueueClick}
+            className={`${styles.actionButton} ${styles.queueButton}`}
+          >
             ⏭ Queue
           </button>
         </div>

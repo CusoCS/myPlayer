@@ -1,4 +1,3 @@
-/* PlaylistDetailPage.module.css */
 .container {
   max-width: 1000px;
   margin: 0 auto;
@@ -6,7 +5,11 @@
 }
 
 .header {
-  background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--accent-bg) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--secondary-bg) 0%,
+    var(--accent-bg) 100%
+  );
   padding: var(--spacing-xl);
   border-radius: var(--radius-lg);
   margin-bottom: var(--spacing-xl);
@@ -17,19 +20,27 @@
 }
 
 .header::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(100, 108, 255, 0.1) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(100, 108, 255, 0.1) 0%,
+    transparent 70%
+  );
   animation: rotate 20s linear infinite;
 }
 
 @keyframes rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .headerContent {
@@ -48,7 +59,11 @@
   font-size: 2.5rem;
   font-weight: 800;
   margin: 0 0 var(--spacing-sm) 0;
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--accent-primary) 0%,
+    var(--accent-secondary) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -106,13 +121,18 @@
 }
 
 .controlButton::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
   transition: left 0.5s;
 }
 
@@ -121,7 +141,11 @@
 }
 
 .shuffleButton {
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--accent-primary) 0%,
+    var(--accent-secondary) 100%
+  );
   color: white;
   box-shadow: 0 4px 15px rgba(100, 108, 255, 0.3);
 }
@@ -133,14 +157,22 @@
 }
 
 .backButton {
-  background: linear-gradient(135deg, var(--accent-bg) 0%, var(--secondary-bg) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--accent-bg) 0%,
+    var(--secondary-bg) 100%
+  );
   color: var(--primary-text);
   border: 1px solid var(--accent-bg);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .backButton:hover {
-  background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--surface-bg) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--secondary-bg) 0%,
+    var(--surface-bg) 100%
+  );
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
@@ -186,7 +218,11 @@
 .songItem {
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--accent-bg) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--secondary-bg) 0%,
+    var(--accent-bg) 100%
+  );
   border: 1px solid transparent;
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
@@ -197,13 +233,18 @@
 }
 
 .songItem::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(100, 108, 255, 0.1), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(100, 108, 255, 0.1),
+    transparent
+  );
   transition: left 0.5s;
 }
 
@@ -213,9 +254,7 @@
 
 .songItem:hover {
   transform: translateY(-4px);
-  box-shadow: 
-    0 15px 30px rgba(0, 0, 0, 0.2),
-    0 0 0 1px var(--accent-primary),
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2), 0 0 0 1px var(--accent-primary),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   border-color: var(--accent-primary);
 }
@@ -287,7 +326,11 @@
 }
 
 .playButton {
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--accent-primary) 0%,
+    var(--accent-secondary) 100%
+  );
   color: white;
   box-shadow: 0 3px 10px rgba(100, 108, 255, 0.3);
 }
@@ -313,7 +356,11 @@
 .emptyState {
   text-align: center;
   padding: var(--spacing-xl);
-  background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--accent-bg) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--secondary-bg) 0%,
+    var(--accent-bg) 100%
+  );
   border-radius: var(--radius-lg);
   border: 2px dashed var(--accent-primary);
   margin-top: var(--spacing-lg);
@@ -355,57 +402,61 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 768px) {
   .container {
     padding: var(--spacing-md) 0;
   }
-  
+
   .header {
     margin-left: var(--spacing-md);
     margin-right: var(--spacing-md);
   }
-  
+
   .playlistTitle {
     font-size: 2rem;
   }
-  
+
   .playlistMeta {
     flex-direction: column;
     gap: var(--spacing-sm);
   }
-  
+
   .controlsSection {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .controlButton {
     width: 100%;
     max-width: 300px;
   }
-  
+
   .songItem {
     flex-direction: column;
     text-align: center;
     padding: var(--spacing-md);
   }
-  
+
   .songNumber {
     margin-right: 0;
     margin-bottom: var(--spacing-sm);
   }
-  
+
   .songThumbnail {
     margin-right: 0;
     margin-bottom: var(--spacing-md);
     width: 120px;
     height: 90px;
   }
-  
+
   .songActions {
     margin-left: 0;
     margin-top: var(--spacing-md);
@@ -418,7 +469,7 @@
     flex-direction: column;
     width: 100%;
   }
-  
+
   .actionButton {
     width: 100%;
     justify-content: center;

@@ -19,7 +19,7 @@ const PlaylistDetailPage = () => {
     } catch (error) {
       console.error("Failed to fetch playlist details", error);
       if (error.response?.status === 404) {
-        navigate('/playlists');
+        navigate("/playlists");
       }
     } finally {
       setIsLoading(false);
@@ -87,11 +87,15 @@ const PlaylistDetailPage = () => {
             </div>
             <div className={styles.metaItem}>
               <span>📅</span>
-              <span>Created {new Date(playlist.created_at).toLocaleDateString()}</span>
+              <span>
+                Created {new Date(playlist.created_at).toLocaleDateString()}
+              </span>
             </div>
             <div className={styles.metaItem}>
               <span>🔄</span>
-              <span>Updated {new Date(playlist.updated_at).toLocaleDateString()}</span>
+              <span>
+                Updated {new Date(playlist.updated_at).toLocaleDateString()}
+              </span>
             </div>
           </div>
           {playlist.description && (
@@ -101,13 +105,16 @@ const PlaylistDetailPage = () => {
       </div>
 
       <div className={styles.controlsSection}>
-        <Link to="/playlists" className={styles.controlButton + ' ' + styles.backButton}>
+        <Link
+          to="/playlists"
+          className={styles.controlButton + " " + styles.backButton}
+        >
           ← Back to Playlists
         </Link>
         {playlist.items && playlist.items.length > 0 && (
           <button
             onClick={handleShufflePlay}
-            className={styles.controlButton + ' ' + styles.shuffleButton}
+            className={styles.controlButton + " " + styles.shuffleButton}
           >
             🔀 Shuffle Play
           </button>
@@ -116,12 +123,11 @@ const PlaylistDetailPage = () => {
 
       <div className={styles.songsSection}>
         <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>
-            🎵 Songs
-          </h2>
+          <h2 className={styles.sectionTitle}>🎵 Songs</h2>
           {playlist.items && playlist.items.length > 0 && (
             <span className={styles.songCount}>
-              {playlist.items.length} song{playlist.items.length !== 1 ? 's' : ''}
+              {playlist.items.length} song
+              {playlist.items.length !== 1 ? "s" : ""}
             </span>
           )}
         </div>
@@ -141,15 +147,15 @@ const PlaylistDetailPage = () => {
                   <p className={styles.songArtist}>{item.song.artist}</p>
                 </div>
                 <div className={styles.songActions}>
-                  <button 
+                  <button
                     onClick={() => handlePlaySong(index)}
-                    className={styles.actionButton + ' ' + styles.playButton}
+                    className={styles.actionButton + " " + styles.playButton}
                   >
                     ▶ Play
                   </button>
                   <button
                     onClick={() => handleRemoveSong(item.id, item.song.title)}
-                    className={styles.actionButton + ' ' + styles.removeButton}
+                    className={styles.actionButton + " " + styles.removeButton}
                   >
                     🗑 Remove
                   </button>
@@ -162,7 +168,8 @@ const PlaylistDetailPage = () => {
             <div className={styles.emptyIcon}>🎵</div>
             <h3 className={styles.emptyTitle}>No songs in this playlist</h3>
             <p className={styles.emptyText}>
-              Start adding songs to this playlist by searching for music on the home page!
+              Start adding songs to this playlist by searching for music on the
+              home page!
             </p>
           </div>
         )}
